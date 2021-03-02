@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-dotnet restore
+dotnet restore --locked-mode
 
 dotnet build \
     -p:Platform=x64 \
