@@ -1,9 +1,8 @@
-﻿
-using Applications.DicomDirectoryProcessor.Execution;
+﻿using Applications.DicomDirectoryProcessor.Execution;
 using Applications.DicomDirectoryProcessor.Options;
-using CommandLine;
 using Smi.Common.Execution;
 using Smi.Common.Options;
+using System.Collections.Generic;
 
 namespace Applications.DicomDirectoryProcessor
 {
@@ -12,7 +11,7 @@ namespace Applications.DicomDirectoryProcessor
     /// Directory message to the message exchange for each directory found
     /// that contains DICOM (*.dcm) files.
     /// </summary>
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         /// Main program.
@@ -21,17 +20,21 @@ namespace Applications.DicomDirectoryProcessor
         /// Arguments.  There should be exactly one argument that specified the
         /// path to the top level directory that is be searched.
         /// </param>
-        private static int Main(string[] args)
+        public static int Main(IEnumerable<string> args)
         {
-            return Parser.Default.ParseArguments<DicomDirectoryProcessorCliOptions>(args).MapResult(
-                processDirectoryOptions =>
-                {
-                    GlobalOptions globalOptions = new GlobalOptionsFactory().Load(processDirectoryOptions);
+            int ret = SmiCliInit
+                .ParseAndRun<DicomDirectoryProcessorCliOptions>(
+                    args,
+                    OnParse
+                );
+            return ret;
+        }
 
-                    var bootStrapper = new MicroserviceHostBootstrapper(() => new DicomDirectoryProcessorHost(globalOptions, processDirectoryOptions));
-                    return bootStrapper.Main();
-                },
-                errs => -100);
+        private static int OnParse(GlobalOptions globals, DicomDirectoryProcessorCliOptions parsedOptions)
+        {
+            var bootstrapper = new MicroserviceHostBootstrapper(() => new DicomDirectoryProcessorHost(globals, parsedOptions));
+            int ret = bootstrapper.Main();
+            return ret;
         }
     }
 }

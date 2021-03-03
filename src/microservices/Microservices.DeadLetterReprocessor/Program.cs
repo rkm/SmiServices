@@ -1,26 +1,24 @@
-﻿
-using CommandLine;
+﻿using Microservices.DeadLetterReprocessor.Execution;
+using Microservices.DeadLetterReprocessor.Options;
 using Smi.Common.Execution;
 using Smi.Common.Options;
-using Microservices.DeadLetterReprocessor.Execution;
-using Microservices.DeadLetterReprocessor.Options;
+using System.Collections.Generic;
 
 namespace Microservices.DeadLetterReprocessor
 {
-    internal static class Program
+    public static class Program
     {
-        private static int Main(string[] args)
+        public static int Main(IEnumerable<string> args)
         {
-            return Parser.Default.ParseArguments<DeadLetterReprocessorCliOptions>(args)
-                .MapResult(deadLetterCliOptions =>
-                    {
-                        GlobalOptions globals = new GlobalOptionsFactory().Load(deadLetterCliOptions);
+            int ret = SmiCliInit.ParseAndRun<DeadLetterReprocessorCliOptions>(args, OnParse);
+            return ret;
+        }
 
-                        var bootstrapper = new MicroserviceHostBootstrapper(() => new DeadLetterReprocessorHost(globals, deadLetterCliOptions));
-                        return bootstrapper.Main();
-                    },
-                    errs => -1
-                );
+        private static int OnParse(GlobalOptions globals, DeadLetterReprocessorCliOptions opts)
+        {
+            var bootstrapper = new MicroserviceHostBootstrapper(() => new DeadLetterReprocessorHost(globals, opts));
+            int ret = bootstrapper.Main();
+            return ret;
         }
     }
 }

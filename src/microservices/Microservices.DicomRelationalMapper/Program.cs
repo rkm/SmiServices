@@ -1,23 +1,23 @@
-﻿
-using CommandLine;
+﻿using Microservices.DicomRelationalMapper.Execution;
 using Smi.Common.Execution;
 using Smi.Common.Options;
-using Microservices.DicomRelationalMapper.Execution;
+using System.Collections.Generic;
 
 namespace Microservices.DicomRelationalMapper
 {
-    internal static class Program
+    public static class Program
     {
-        private static int Main(string[] args)
+        public static int Main(IEnumerable<string> args)
         {
-            return Parser.Default.ParseArguments<CliOptions>(args).MapResult((o) =>
-            {
-                GlobalOptions options = new GlobalOptionsFactory().Load(o);
+            int ret = SmiCliInit.ParseAndRun<CliOptions>(args, OnParse);
+            return ret;
+        }
 
-                var bootstrapper = new MicroserviceHostBootstrapper(() => new DicomRelationalMapperHost(options));
-                return bootstrapper.Main();
-
-            }, err => -100);
+        private static int OnParse(GlobalOptions globals, CliOptions opts)
+        {
+            var bootstrapper = new MicroserviceHostBootstrapper(() => new DicomRelationalMapperHost(globals));
+            int ret = bootstrapper.Main();
+            return ret;
         }
     }
 }

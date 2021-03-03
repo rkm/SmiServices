@@ -1,30 +1,24 @@
-﻿
-using CommandLine;
+﻿using Microservices.DicomReprocessor.Execution;
+using Microservices.DicomReprocessor.Options;
 using Smi.Common.Execution;
 using Smi.Common.Options;
-using Microservices.DicomReprocessor.Execution;
-using Microservices.DicomReprocessor.Options;
+using System.Collections.Generic;
 
 namespace Microservices.DicomReprocessor
 {
-    /// <summary>
-    /// Command line program to reprocess documents from MongoDb
-    /// and push them back onto the IdentifiableImageQueue for
-    /// reprocessing into the relational database.
-    /// </summary>
-    internal static class Program
+    public static class Program
     {
-        private static int Main(string[] args)
+        public static int Main(IEnumerable<string> args)
         {
-            return Parser.Default.ParseArguments<DicomReprocessorCliOptions>(args)
-                .MapResult(dicomReprocessorCliOptions =>
-                {
-                    GlobalOptions options = new GlobalOptionsFactory().Load(dicomReprocessorCliOptions);
+            int ret = SmiCliInit.ParseAndRun<DicomReprocessorCliOptions>(args, OnParse);
+            return ret;
+        }
 
-                    var bootStrapper = new MicroserviceHostBootstrapper(() => new DicomReprocessorHost(options, dicomReprocessorCliOptions));
-                    return bootStrapper.Main();
-
-                }, err => -100);
+        private static int OnParse(GlobalOptions globals, DicomReprocessorCliOptions opts)
+        {
+            var bootstrapper = new MicroserviceHostBootstrapper(() => new DicomReprocessorHost(globals, opts));
+            int ret = bootstrapper.Main();
+            return ret;
         }
     }
 }

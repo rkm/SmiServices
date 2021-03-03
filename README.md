@@ -1,10 +1,14 @@
+[![Build Status](https://dev.azure.com/SmiOps/Public/_apis/build/status/SmiServices%20Linux?branchName=master)](https://dev.azure.com/SmiOps/Public/_build/latest?definitionId=3&branchName=master) (Linux build)
 
-[![Build Status](https://travis-ci.com/SMI/SmiServices.svg?branch=master)](https://travis-ci.com/SMI/SmiServices)
-![GitHub](https://img.shields.io/github/license/SMI/SmiServices)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/SMI/SmiServices.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SMI/SmiServices/alerts/)
+[![Build Status](https://dev.azure.com/SmiOps/Public/_apis/build/status/SmiServices%20Windows?branchName=master)](https://dev.azure.com/SmiOps/Public/_build/latest?definitionId=4&branchName=master) (Windows build)
+
 [![Coverage Status](https://coveralls.io/repos/github/SMI/SmiServices/badge.svg)](https://coveralls.io/github/SMI/SmiServices)
 
-Version: `1.13.0`
+![GitHub](https://img.shields.io/github/license/SMI/SmiServices)
+
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/SMI/SmiServices.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SMI/SmiServices/alerts/)
+
+Version: `1.15.1`
 
 # SMI Services
 
@@ -14,18 +18,19 @@ A suite of microservices for [loading*](./Glossary.md#loading), anonymising, lin
 
 The platform allows [dicom tags] (extracted from clinical images) to be loaded into MongoDB and relational database tables for the purposes of generating anonymous linked research extracts (including image anonymisation).
 
-The latest binaries can be downloaded from the [releases section](https://github.com/SMI/SmiServices/releases/latest).
+The latest binaries can be downloaded from the [releases section](https://github.com/SMI/SmiServices/releases/latest). See the instructions below on how to run the services.
 
 ## Contents
 
 1. [Microservices](#microservices)
    1. [Data Load Microservices](#data-load-microservices)
-   2. [Image Extraction Microservices](#image-extraction-microservices)
-2. [Solution Overivew](#solution-overview)
-3. [Building](#building)
-4. [Testing](#testing)
-5. [Package Hierarchy](#package-hierarchy)
-6. [Scaleability](#scaleability)
+   1. [Image Extraction Microservices](#image-extraction-microservices)
+1. [Solution Overivew](#solution-overview)
+1. [Building](#building)
+1. [Running](#running)
+1. [Testing](#testing)
+1. [Package Hierarchy](#package-hierarchy)
+1. [Scaleability](#scaleability)
 
 ## Microservices
 
@@ -59,7 +64,7 @@ A control queue is provided for controlling Microservices during runtime.  It su
 | [IsIdentifiable]  | Evaluates data being prepared for extraction for personally identifiable data (PII).  See also [IsIdentifiableReviewer]|
 | [ExtractorCL] | Reads UIDs from a CSV file and generates [ExtractionRequestMessage] and audit message [ExtractionRequestInfoMessage].|
 | [CohortExtractor] | Looks up SeriesInstanceUIDs in [ExtractionRequestMessage] and does relational database lookup(s) to resolve into physical image file location.  Generates  [ExtractFileMessage] and audit message [ExtractFileCollectionInfoMessage].|
-| [CTPAnonymiser]  | Microservice wrapper for [CTP](https://github.com/johnperry/CTP).  Anonymises images specified in  [ExtractFileMessage] and copies to specified output directory.  Generates audit message [ExtractFileStatusMessage].|
+| [CTPAnonymiser]  | Microservice wrapper for [CTP](https://github.com/johnperry/CTP).  Anonymises images specified in  [ExtractFileMessage] and copies to specified output directory.  Generates audit message [ExtractedFileStatusMessage].|
 | [CohortPackager] | Records all audit messages and determines when jobs are complete.|
 
 ### Audit and Logging Systems
@@ -143,6 +148,10 @@ $ mvn -f src/common/com.smi.microservices.parent/pom.xml test -pl com.smi.micros
 
 Note: If you have Maven `>=3.6.1` then you can pass `-ntp` to each of the above commands in order to hide the large volume of messages related to the downloading of dependencies.
 
+## Running
+
+All applications and services are runnable through the `smi` program. This is available either in the binary distribution, or in the `src/Applications/Applications.SmiRunner/bin` directory if developing locally. See the SmiRunner [README](/src/applications/Applications.SmiRunner/README.md) for more information.
+
 ## Developing
 
 ### C# Projects
@@ -216,14 +225,14 @@ Scaleability is handled through parallel process execution (using [RabbitMQ]).  
 [Dicom]: ./Glossary.md#dicom
 [Dicom tags]: ./Glossary.md#dicom-tags
 [IsIdentifiable]: ./src/microservices/Microservices.IsIdentifiable/README.md
-[IsIdentifiableReviewer]: ./src/applications/IsIdentifiableReviewer/README.md
+[IsIdentifiableReviewer]: ./src/applications/Applications.IsIdentifiableReviewer/README.md
 [DicomFileMessage]: ./src/common/Smi.Common/Messages/DicomFileMessage.cs
 [SeriesMessage]: ./src/common/Smi.Common/Messages/SeriesMessage.cs
 [ExtractionRequestMessage]: ./src/common/Smi.Common/Messages/Extraction/ExtractionRequestMessage.cs
 [ExtractionRequestInfoMessage]: ./src/common/Smi.Common/Messages/Extraction/ExtractionRequestInfoMessage.cs
 [ExtractFileMessage]: ./src/common/Smi.Common/Messages/Extraction/ExtractFileMessage.cs
 [ExtractFileCollectionInfoMessage]: ./src/common/Smi.Common/Messages/Extraction/ExtractFileCollectionInfoMessage.cs
-[ExtractFileStatusMessage]: ./src/common/Smi.Common/Messages/Extraction/ExtractFileStatusMessage.cs
+[ExtractedFileStatusMessage]: ./src/common/Smi.Common/Messages/Extraction/ExtractedFileStatusMessage.cs
 [RDMP]: https://github.com/HicServices/RDMP
 [ProcessDirectory]: ./src/applications/Applications.DicomDirectoryProcessor/README.md
 [DicomTagReader]: ./src/microservices/Microservices.DicomTagReader/README.md

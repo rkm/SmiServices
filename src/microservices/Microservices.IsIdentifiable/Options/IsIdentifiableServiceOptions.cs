@@ -6,12 +6,9 @@ using CommandLine.Text;
 
 namespace Microservices.IsIdentifiable.Options
 {
-    [Verb("service")]
+    [Verb("service", HelpText = "Run tool as a service processing data in a RabbitMQ queue")]
     public class IsIdentifiableServiceOptions : IsIdentifiableAbstractOptions
     {
-        [Option('y', HelpText = "Configuration file", Required = true)]
-        public string YamlFile { get; set; }
-        
         [Option(HelpText = "Optional. True to check the files opened have a valid dicom preamble", Default = true)]
         public bool RequirePreamble { get; set; }
 
