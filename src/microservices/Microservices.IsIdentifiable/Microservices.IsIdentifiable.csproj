@@ -16,6 +16,9 @@
     <Content Include="..\..\..\lib\libtesseract.so.4.0.1" Link="x64\libtesseract41.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\lib\liblept.so.5.0.4" Link="x64\liblept.so.5">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\..\lib\liblept.so.5.0.4" Link="x64\libleptonica-1.80.0.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
