@@ -20,8 +20,6 @@
     <NoWarn>$(NoWarn);CS8603</NoWarn>
     <!-- Possible null reference argument for parameter -->
     <NoWarn>$(NoWarn);CS8604</NoWarn>
-    <!-- Unboxing a possibly null value -->
-    <NoWarn>$(NoWarn);CS8605</NoWarn>
     <!-- Non-nullable field must contain a non-null value when exiting constructor -->
     <NoWarn>$(NoWarn);CS8618</NoWarn>
     <!-- Nullability of reference types in value of type doesn't match target type -->
