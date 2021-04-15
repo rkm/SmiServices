@@ -49,7 +49,7 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting.CsvReco
 
         #region Equality Members
 
-        public bool Equals(TagDataFrequencyRecord other)
+        public bool Equals(TagDataFrequencyRecord? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

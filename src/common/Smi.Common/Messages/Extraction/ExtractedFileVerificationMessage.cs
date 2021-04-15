@@ -35,7 +35,7 @@ namespace Smi.Common.Messages.Extraction
 
         #region Equality Members
 
-        public bool Equals(ExtractedFileVerificationMessage other)
+        public bool Equals(ExtractedFileVerificationMessage? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -62,7 +62,7 @@ namespace Microservices.IsIdentifiable.Failures
         }
 
         #region Equality
-        public bool Equals(FailurePart other)
+        public bool Equals(FailurePart? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

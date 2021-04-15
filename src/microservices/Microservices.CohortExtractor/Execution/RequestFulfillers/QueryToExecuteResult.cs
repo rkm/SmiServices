@@ -33,7 +33,7 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
 
         #region Equality
 
-        public bool Equals(QueryToExecuteResult other)
+        public bool Equals(QueryToExecuteResult? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

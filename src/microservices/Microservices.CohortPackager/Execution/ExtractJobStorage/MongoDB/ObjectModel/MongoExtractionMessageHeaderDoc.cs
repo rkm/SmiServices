@@ -75,7 +75,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
         #region Equality Members
 
-        public bool Equals(MongoExtractionMessageHeaderDoc other)
+        public bool Equals(MongoExtractionMessageHeaderDoc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

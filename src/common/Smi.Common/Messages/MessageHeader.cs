@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -150,17 +150,17 @@ namespace Smi.Common.Messages
         #region Equality Members
 
         /// <inheritdoc />
-        public bool Equals(MessageHeader other)
+        public bool Equals(MessageHeader? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return MessageGuid.Equals(other.MessageGuid)
-                   && ProducerProcessID == other.ProducerProcessID
+            return MessageGuid.Equals(other.MessageGuid) 
+                   && ProducerProcessID == other.ProducerProcessID 
                    && string.Equals(ProducerExecutableName, other.ProducerExecutableName)
-                   && OriginalPublishTimestamp == other.OriginalPublishTimestamp
+                   && OriginalPublishTimestamp == other.OriginalPublishTimestamp 
                    && Parents.SequenceEqual(other.Parents);
         }
-
+        
         /// <inheritdoc />
         public override bool Equals(object? obj)
         {

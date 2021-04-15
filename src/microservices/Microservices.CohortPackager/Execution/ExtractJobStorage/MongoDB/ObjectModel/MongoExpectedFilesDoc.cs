@@ -60,7 +60,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
         #region Equality Members
 
-        public bool Equals(MongoExpectedFilesDoc other)
+        public bool Equals(MongoExpectedFilesDoc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -117,7 +117,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
         #region Equality Members
 
-        public bool Equals(MongoExpectedFileInfoDoc other)
+        public bool Equals(MongoExpectedFileInfoDoc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

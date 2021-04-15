@@ -210,7 +210,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
         #region Equality Members
 
-        public bool Equals(MongoFailedJobInfoDoc other)
+        public bool Equals(MongoFailedJobInfoDoc? other)
         {
             return
                 FailedAt.Equals(other.FailedAt) &&

@@ -50,7 +50,7 @@ namespace Smi.Common.Messages.Extraction
 
         #region Equality Members
 
-        public bool Equals(ExtractFileCollectionInfoMessage other)
+        public bool Equals(ExtractFileCollectionInfoMessage? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

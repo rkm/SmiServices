@@ -150,7 +150,7 @@ namespace Smi.Common.Messages
             }
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             return string.Compare(DicomFilePath, ((DicomFileMessage)obj).DicomFilePath, StringComparison.Ordinal);
         }

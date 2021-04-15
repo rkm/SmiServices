@@ -42,7 +42,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
 
         #region  Equality Members
 
-        public bool Equals(CompletedExtractJobInfo other)
+        public bool Equals(CompletedExtractJobInfo? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

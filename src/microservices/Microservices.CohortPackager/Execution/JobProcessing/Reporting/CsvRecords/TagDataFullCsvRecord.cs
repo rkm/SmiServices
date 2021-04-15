@@ -56,7 +56,7 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting.CsvReco
 
         #region Equality members
 
-        public bool Equals(TagDataFullCsvRecord other)
+        public bool Equals(TagDataFullCsvRecord? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

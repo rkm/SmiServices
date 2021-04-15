@@ -111,7 +111,7 @@ namespace Smi.Common.Messages
 
         #region Equality Members
 
-        public bool Equals(RabbitMqXDeathHeaders other)
+        public bool Equals(RabbitMqXDeathHeaders? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -191,7 +191,7 @@ namespace Smi.Common.Messages
 
         #region Equality Members
 
-        public bool Equals(RabbitMqXDeath other)
+        public bool Equals(RabbitMqXDeath? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

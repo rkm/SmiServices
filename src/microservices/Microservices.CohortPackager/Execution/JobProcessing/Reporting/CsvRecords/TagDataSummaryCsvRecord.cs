@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,11 +75,11 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting.CsvReco
 
         #region Equality members
 
-        public bool Equals(TagDataSummaryCsvRecord other)
+        public bool Equals(TagDataSummaryCsvRecord? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return 
+            return
                 TagName == other.TagName
                 && FailureValue == other.FailureValue
                 && Occurrences == other.Occurrences
