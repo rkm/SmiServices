@@ -93,9 +93,9 @@ namespace Microservices.IsIdentifiable.Reporting.Destinations
             _streamwriter.Dispose();
         }
 
-        private void WriteRow(IEnumerable<object> rowItems)
+        private void WriteRow(IEnumerable<object?> rowItems)
         {
-            foreach (string item in rowItems)
+            foreach (string item in rowItems.Where(x => x != null))
                 _csvWriter.WriteField(StripWhitespace(item));
 
             _csvWriter.NextRecord();

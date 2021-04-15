@@ -26,8 +26,6 @@
     <NoWarn>$(NoWarn);CS8618</NoWarn>
     <!-- Nullability of reference types in value of type doesn't match target type -->
     <NoWarn>$(NoWarn);CS8619</NoWarn>
-    <!-- Argument of type cannot be used for parameter of type due to differences in the nullability of reference types -->
-    <NoWarn>$(NoWarn);CS8620</NoWarn>
     <!-- Cannot convert null literal to non-nullable reference type -->
     <NoWarn>$(NoWarn);CS8625</NoWarn>
 
