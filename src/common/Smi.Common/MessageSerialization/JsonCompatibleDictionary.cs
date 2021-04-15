@@ -1,4 +1,4 @@
-﻿
+
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace Smi.Common.MessageSerialization
     /// <typeparam name="TK"></typeparam>
     /// <typeparam name="TV"></typeparam>
     [JsonObject(MemberSerialization.OptIn)]
-    public class JsonCompatibleDictionary<TK, TV> : Dictionary<TK, TV>
+    public class JsonCompatibleDictionary<TK, TV> : Dictionary<TK, TV> where TK : notnull
     {
         [JsonProperty]
         public TK[] SerializeableKeys
@@ -47,7 +47,7 @@ namespace Smi.Common.MessageSerialization
 
         private void Hydrate(TK[] hydrateV1, TV[] hydrateV2)
         {
-            if (hydrateV1 == null || hydrateV2 == null)
+            if (hydrateV2 == null)
                 return;
 
             if (_hydrateV1.Length != hydrateV2.Length)

@@ -32,8 +32,6 @@
     <NoWarn>$(NoWarn);CS8622</NoWarn>
     <!-- Cannot convert null literal to non-nullable reference type -->
     <NoWarn>$(NoWarn);CS8625</NoWarn>
-    <!-- Nullability of type argument 'TKey' doesn't match 'notnull' constraint -->
-    <NoWarn>$(NoWarn);CS8714</NoWarn>    
 
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <Platforms>x64</Platforms>

@@ -107,7 +107,7 @@ namespace Microservices.CohortPackager.Tests.Execution.ExtractJobStorage.MongoDB
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TVal"></typeparam>
-        private sealed class MockExtractCollection<TKey, TVal> : StubMongoCollection<TKey, TVal>
+        private sealed class MockExtractCollection<TKey, TVal> : StubMongoCollection<TKey, TVal> where TKey : notnull
         {
             public readonly Dictionary<TKey, TVal> Documents = new Dictionary<TKey, TVal>();
 
