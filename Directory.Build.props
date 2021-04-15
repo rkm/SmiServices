@@ -7,6 +7,36 @@
     <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
     <LangVersion>8.0</LangVersion>
+
+    <!-- Nullable warnings -->
+    <Nullable>enable</Nullable>
+    <!-- Converting null literal or possible null value to non-nullable type -->
+    <NoWarn>$(NoWarn);CS8600</NoWarn>
+    <!-- Possible null reference assignment -->
+    <NoWarn>$(NoWarn);CS8601</NoWarn>
+    <!-- Dereference of a possibly null reference -->
+    <NoWarn>$(NoWarn);CS8602</NoWarn>
+    <!-- Possible null reference return -->
+    <NoWarn>$(NoWarn);CS8603</NoWarn>
+    <!-- Possible null reference argument for parameter -->
+    <NoWarn>$(NoWarn);CS8604</NoWarn>
+    <!-- Unboxing a possibly null value -->
+    <NoWarn>$(NoWarn);CS8605</NoWarn>
+    <!-- Non-nullable field must contain a non-null value when exiting constructor -->
+    <NoWarn>$(NoWarn);CS8618</NoWarn>
+    <!-- Nullability of reference types in value of type doesn't match target type -->
+    <NoWarn>$(NoWarn);CS8619</NoWarn>
+    <!-- Argument of type cannot be used for parameter of type due to differences in the nullability of reference types -->
+    <NoWarn>$(NoWarn);CS8620</NoWarn>
+    <!-- Nullability of reference types in type of parameter of doesn't match the target delegate -->
+    <NoWarn>$(NoWarn);CS8622</NoWarn>
+    <!-- Cannot convert null literal to non-nullable reference type -->
+    <NoWarn>$(NoWarn);CS8625</NoWarn>
+    <!-- Nullability of type argument 'TKey' doesn't match 'notnull' constraint -->
+    <NoWarn>$(NoWarn);CS8714</NoWarn>
+    <!-- Nullability of reference types in type of parameter doesn't match implicitly implemented member -->
+    <NoWarn>$(NoWarn);CS8767</NoWarn>
+
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <Platforms>x64</Platforms>
     <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
