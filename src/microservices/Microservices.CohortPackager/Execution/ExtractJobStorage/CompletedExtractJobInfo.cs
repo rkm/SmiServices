@@ -49,7 +49,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
             return base.Equals(other) && JobCompletedAt.Equals(other.JobCompletedAt);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

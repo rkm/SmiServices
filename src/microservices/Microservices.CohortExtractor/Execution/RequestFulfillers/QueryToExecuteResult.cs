@@ -40,7 +40,7 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
             return FilePathValue == other.FilePathValue && StudyTagValue == other.StudyTagValue && SeriesTagValue == other.SeriesTagValue && InstanceTagValue == other.InstanceTagValue && Reject == other.Reject && RejectReason == other.RejectReason;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

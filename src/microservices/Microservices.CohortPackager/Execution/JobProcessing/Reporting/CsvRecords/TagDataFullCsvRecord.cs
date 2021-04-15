@@ -66,7 +66,7 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting.CsvReco
                 && FilePath == other.FilePath;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

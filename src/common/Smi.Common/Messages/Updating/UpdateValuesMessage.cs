@@ -76,7 +76,7 @@ namespace Smi.Common.Messages.Updating
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is UpdateValuesMessage message &&
                    Enumerable.SequenceEqual(Operators ?? new string[0], message.Operators?? new string[0]) &&

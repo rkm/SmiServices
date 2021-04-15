@@ -28,7 +28,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
             return base.Equals(other) && CompletedAt.Equals(other.CompletedAt);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

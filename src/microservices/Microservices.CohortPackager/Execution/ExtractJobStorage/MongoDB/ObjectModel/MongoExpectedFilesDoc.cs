@@ -70,7 +70,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
                    Equals(RejectedKeys, other.RejectedKeys);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -125,7 +125,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
                    AnonymisedFilePath == other.AnonymisedFilePath;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -188,7 +188,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
                    RejectionInfo.OrderBy(x => x.Key).SequenceEqual(other.RejectionInfo.OrderBy(x => x.Key));
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

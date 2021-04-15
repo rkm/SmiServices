@@ -26,7 +26,7 @@ namespace Smi.Common.Messages
             return string.Equals(Message, other.Message) && Equals(Exception, other.Exception);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

@@ -42,7 +42,7 @@ namespace Smi.Common.Messages.Extraction
             return base.Equals(other) && IsIdentifiable == other.IsIdentifiable && DicomFilePath == other.DicomFilePath && OutputFilePath == other.OutputFilePath;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

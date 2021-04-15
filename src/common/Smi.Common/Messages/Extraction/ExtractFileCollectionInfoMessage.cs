@@ -58,7 +58,7 @@ namespace Smi.Common.Messages.Extraction
             return base.Equals(other) && Equals(ExtractFileMessagesDispatched, other.ExtractFileMessagesDispatched);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
