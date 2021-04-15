@@ -70,7 +70,7 @@ namespace Microservices.IsIdentifiable
 
             using (var runner = new IsIdentifiableMongoRunner(opts, appId))
             {
-                Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
+                Console.CancelKeyPress += delegate (object? _, ConsoleCancelEventArgs e)
                 {
                     e.Cancel = true;
                     runner.Stop();

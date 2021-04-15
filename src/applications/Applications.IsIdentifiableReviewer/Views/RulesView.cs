@@ -60,7 +60,7 @@ namespace IsIdentifiableReviewer.Views
             Add(_treeView);
         }
 
-        private void _treeView_SelectionChanged(object sender, SelectionChangedEventArgs<ITreeNode> e)
+        private void _treeView_SelectionChanged(object? __, SelectionChangedEventArgs<ITreeNode> e)
         {
             // when selecting a node 
 

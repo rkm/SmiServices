@@ -28,8 +28,6 @@
     <NoWarn>$(NoWarn);CS8619</NoWarn>
     <!-- Argument of type cannot be used for parameter of type due to differences in the nullability of reference types -->
     <NoWarn>$(NoWarn);CS8620</NoWarn>
-    <!-- Nullability of reference types in type of parameter of doesn't match the target delegate -->
-    <NoWarn>$(NoWarn);CS8622</NoWarn>
     <!-- Cannot convert null literal to non-nullable reference type -->
     <NoWarn>$(NoWarn);CS8625</NoWarn>
 
