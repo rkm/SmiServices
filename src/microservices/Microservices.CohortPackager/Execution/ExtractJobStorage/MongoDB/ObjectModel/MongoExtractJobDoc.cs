@@ -16,11 +16,11 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
         public Guid ExtractionJobIdentifier { get; set; }
 
         [BsonElement("header")]
-        [NotNull]
+        
         public MongoExtractionMessageHeaderDoc Header { get; set; }
 
         [BsonElement("projectNumber")]
-        [NotNull]
+        
         public string ProjectNumber { get; set; }
 
         [BsonElement("jobStatus")]
@@ -28,14 +28,14 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
         public ExtractJobStatus JobStatus { get; set; }
 
         [BsonElement("extractionDirectory")]
-        [NotNull]
+        
         public string ExtractionDirectory { get; set; }
 
         [BsonElement("jobSubmittedAt")]
         public DateTime JobSubmittedAt { get; set; }
 
         [BsonElement("keyTag")]
-        [NotNull]
+        
         public string KeyTag { get; set; }
 
         [BsonElement("keyCount")]
@@ -58,12 +58,12 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
         public MongoExtractJobDoc(
             Guid extractionJobIdentifier,
-            [NotNull] MongoExtractionMessageHeaderDoc header,
-            [NotNull] string projectNumber,
+             MongoExtractionMessageHeaderDoc header,
+             string projectNumber,
             ExtractJobStatus jobStatus,
-            [NotNull] string extractionDirectory,
+             string extractionDirectory,
             DateTime jobSubmittedAt,
-            [NotNull] string keyTag,
+             string keyTag,
             uint keyCount,
             [CanBeNull] string extractionModality,
             bool isIdentifiableExtraction,
@@ -105,9 +105,9 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
         }
 
         public static MongoExtractJobDoc FromMessage(
-            [NotNull] ExtractionRequestInfoMessage message,
-            [NotNull] IMessageHeader header,
-            [NotNull] DateTimeProvider dateTimeProvider)
+             ExtractionRequestInfoMessage message,
+             IMessageHeader header,
+             DateTimeProvider dateTimeProvider)
         {
             return new MongoExtractJobDoc(
                 message.ExtractionJobIdentifier,
@@ -184,11 +184,11 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
         public DateTime FailedAt { get; set; }
 
         [BsonElement("exceptionMessage")]
-        [NotNull]
+        
         public string ExceptionMessage { get; set; }
 
         [BsonElement("stackTrace")]
-        [NotNull]
+        
         public string StackTrace { get; set; }
 
         [BsonElement("innerException")]
@@ -197,8 +197,8 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
 
         public MongoFailedJobInfoDoc(
-            [NotNull] Exception exception,
-            [NotNull] DateTimeProvider dateTimeProvider)
+             Exception exception,
+             DateTimeProvider dateTimeProvider)
         {
             FailedAt = dateTimeProvider.UtcNow();
             if (exception == null)

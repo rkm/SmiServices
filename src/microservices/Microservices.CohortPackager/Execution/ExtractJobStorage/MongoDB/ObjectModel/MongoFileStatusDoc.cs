@@ -13,11 +13,11 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
     public class MongoFileStatusDoc : ISupportInitialize
     {
         [BsonElement("header")]
-        [NotNull]
+        
         public MongoExtractionMessageHeaderDoc Header { get; set; }
 
         [BsonElement("dicomFilePath")]
-        [NotNull]
+        
         public string DicomFilePath { get; set; }
 
         [BsonElement("outputFileName")]
@@ -50,8 +50,8 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
 
         public MongoFileStatusDoc(
-            [NotNull] MongoExtractionMessageHeaderDoc header,
-            [NotNull] string dicomFilePath,
+             MongoExtractionMessageHeaderDoc header,
+             string dicomFilePath,
             [CanBeNull] string outputFileName,
             bool wasAnonymised,
             bool isIdentifiable,

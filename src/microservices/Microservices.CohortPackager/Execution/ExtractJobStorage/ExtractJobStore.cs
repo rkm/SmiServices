@@ -21,8 +21,8 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
         }
 
         public void PersistMessageToStore(
-            [NotNull] ExtractionRequestInfoMessage message,
-            [NotNull] IMessageHeader header)
+             ExtractionRequestInfoMessage message,
+             IMessageHeader header)
         {
             Logger.Info($"Received new job info {message}");
 
@@ -40,8 +40,8 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
         }
 
         public void PersistMessageToStore(
-            [NotNull] ExtractedFileStatusMessage message,
-            [NotNull] IMessageHeader header)
+             ExtractedFileStatusMessage message,
+             IMessageHeader header)
         {
             if (message.Status == ExtractedFileStatus.None)
                 throw new ApplicationException("ExtractedFileStatus was None");
@@ -52,8 +52,8 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
         }
 
         public void PersistMessageToStore(
-            [NotNull] ExtractedFileVerificationMessage message,
-            [NotNull] IMessageHeader header)
+             ExtractedFileVerificationMessage message,
+             IMessageHeader header)
         {
             if (string.IsNullOrWhiteSpace(message.OutputFilePath))
                 throw new ApplicationException("Received a verification message without the AnonymisedFileName set");
@@ -82,7 +82,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
 
         public void MarkJobFailed(
             Guid jobId,
-            [NotNull] Exception cause)
+             Exception cause)
         {
             if (jobId == default(Guid))
                 throw new ArgumentNullException(nameof(jobId));

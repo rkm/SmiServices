@@ -13,7 +13,7 @@ namespace Microservices.FileCopier.Execution
         private readonly FileCopyQueueConsumer _consumer;
 
         public FileCopierHost(
-            [NotNull] GlobalOptions options,
+             GlobalOptions options,
             [CanBeNull] IFileSystem fileSystem = null
         )
         : base(

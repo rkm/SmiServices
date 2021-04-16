@@ -21,19 +21,19 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting
     {
         public readonly ReportFormat ReportFormat;
 
-        [NotNull] public readonly string ReportNewLine;
+         public readonly string ReportNewLine;
 
-        [NotNull] protected readonly ILogger Logger;
+         protected readonly ILogger Logger;
 
-        [NotNull] private readonly IExtractJobStore _jobStore;
+         private readonly IExtractJobStore _jobStore;
 
         private const string PixelDataStr = "PixelData";
 
-        [NotNull] private readonly CsvConfiguration _csvConfiguration;
+         private readonly CsvConfiguration _csvConfiguration;
 
 
         protected JobReporterBase(
-            [NotNull] IExtractJobStore jobStore,
+             IExtractJobStore jobStore,
             ReportFormat reportFormat,
             [CanBeNull] string reportNewLine
         )

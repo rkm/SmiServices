@@ -22,7 +22,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
         public Guid MessageGuid { get; set; }
 
         [BsonElement("producerExecutableName")]
-        [NotNull]
+        
         public string ProducerExecutableName { get; set; }
 
         [BsonElement("producerProcessID")]
@@ -42,7 +42,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
         public MongoExtractionMessageHeaderDoc(
             Guid extractionJobIdentifier,
             Guid messageGuid,
-            [NotNull] string producerExecutableName,
+             string producerExecutableName,
             int producerProcessId,
             DateTime originalPublishTimestamp,
             [CanBeNull] string parents,
@@ -59,8 +59,8 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB.Objec
 
         public static MongoExtractionMessageHeaderDoc FromMessageHeader(
             Guid extractionJobIdentifier,
-            [NotNull] IMessageHeader header,
-            [NotNull] DateTimeProvider dateTimeProvider)
+             IMessageHeader header,
+             DateTimeProvider dateTimeProvider)
         {
             return new MongoExtractionMessageHeaderDoc(
                 extractionJobIdentifier,

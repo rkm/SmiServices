@@ -8,11 +8,11 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting
 {
     public static class JobReporterFactory
     {
-        public static IJobReporter GetReporter([NotNull] string reporterTypeStr,
-            [NotNull] IExtractJobStore jobStore,
-            [NotNull] IFileSystem fileSystem,
-            [NotNull] string extractRoot,
-            [NotNull] string reportFormatStr,
+        public static IJobReporter GetReporter( string reporterTypeStr,
+             IExtractJobStore jobStore,
+             IFileSystem fileSystem,
+             string extractRoot,
+             string reportFormatStr,
             [CanBeNull] string reportNewLine,
             bool createJobIdFile = true
         )

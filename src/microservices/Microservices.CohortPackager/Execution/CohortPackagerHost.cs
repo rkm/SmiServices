@@ -44,7 +44,7 @@ namespace Microservices.CohortPackager.Execution
         /// <param name="rabbitMqAdapter"></param>
         /// <param name="dateTimeProvider"></param>
         public CohortPackagerHost(
-            [NotNull] GlobalOptions globals,
+             GlobalOptions globals,
             [CanBeNull] ExtractJobStore jobStore = null,
             [CanBeNull] IFileSystem fileSystem = null,
             [CanBeNull] IJobReporter reporter = null,

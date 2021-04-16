@@ -33,8 +33,8 @@ namespace Microservices.CohortPackager.Execution.JobProcessing
             CohortPackagerOptions options,
             IExtractJobStore jobStore,
             Action<Exception> exceptionCallback,
-            [NotNull] IJobCompleteNotifier jobCompleteNotifier,
-            [NotNull] IJobReporter reporter)
+             IJobCompleteNotifier jobCompleteNotifier,
+             IJobReporter reporter)
         {
             _jobStore = jobStore;
             _exceptionCallback = exceptionCallback;

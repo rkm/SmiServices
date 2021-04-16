@@ -35,8 +35,8 @@ namespace Smi.Common.Messages.Extraction
 
         protected ExtractMessage(
             Guid extractionJobIdentifier,
-            [NotNull] string projectNumber,
-            [NotNull] string extractionDirectory,
+             string projectNumber,
+             string extractionDirectory,
             DateTime jobSubmittedAt,
             bool isIdentifiableExtraction,
             bool isNoFilterExtraction)

@@ -22,19 +22,19 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
         /// <summary>
         /// Reference number for the project
         /// </summary>
-        [NotNull]
+        
         public string ProjectNumber { get; }
 
         /// <summary>
         /// Directory to extract files into, relative to the extraction root. Should be of the format projName/extractions/extractName
         /// </summary>
-        [NotNull]
+        
         public string ExtractionDirectory { get; }
 
         /// <summary>
         /// The DICOM tag of the identifier we are extracting (i.e. "SeriesInstanceUID")
         /// </summary>
-        [NotNull]
+        
         public string KeyTag { get; }
 
         /// <summary>
@@ -61,9 +61,9 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage
         public ExtractJobInfo(
             Guid extractionJobIdentifier,
             DateTime jobSubmittedAt,
-            [NotNull] string projectNumber,
-            [NotNull] string extractionDirectory,
-            [NotNull] string keyTag,
+             string projectNumber,
+             string extractionDirectory,
+             string keyTag,
             uint keyValueCount,
             [CanBeNull] string extractionModality,
             ExtractJobStatus jobStatus,

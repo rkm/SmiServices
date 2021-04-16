@@ -35,11 +35,11 @@ namespace Smi.Common.Messaging
 
 
         public ControlMessageConsumer(
-            [NotNull] IConnectionFactory connectionFactory,
-            [NotNull] string processName,
+             IConnectionFactory connectionFactory,
+             string processName,
             int processId,
-            [NotNull] string controlExchangeName,
-            [NotNull] Action<string> stopEvent)
+             string controlExchangeName,
+             Action<string> stopEvent)
         {
             if (processName == null)
                 throw new ArgumentNullException(nameof(processName));

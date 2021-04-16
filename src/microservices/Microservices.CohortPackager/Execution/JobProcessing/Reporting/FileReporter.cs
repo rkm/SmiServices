@@ -10,11 +10,11 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting
     [UsedImplicitly]
     public class FileReporter : JobReporterBase
     {
-        [NotNull] private readonly string _extractRoot;
+         private readonly string _extractRoot;
 
         private bool _createJobIdFile;
 
-        [NotNull] private readonly IFileSystem _fileSystem;
+         private readonly IFileSystem _fileSystem;
 
         /// <summary>
         /// Used to ensure any open streams are tidied-up on crashes
@@ -23,9 +23,9 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting
 
 
         public FileReporter(
-            [NotNull] IExtractJobStore jobStore,
-            [NotNull] IFileSystem fileSystem,
-            [NotNull] string extractRoot,
+             IExtractJobStore jobStore,
+             IFileSystem fileSystem,
+             string extractRoot,
             ReportFormat reportFormat,
             [CanBeNull] string reportNewLine,
             bool createJobIdFile = true

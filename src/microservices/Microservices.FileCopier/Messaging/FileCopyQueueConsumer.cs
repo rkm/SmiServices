@@ -9,17 +9,17 @@ namespace Microservices.FileCopier.Messaging
 {
     public class FileCopyQueueConsumer : Consumer<ExtractFileMessage>
     {
-        [NotNull] private readonly IFileCopier _fileCopier;
+         private readonly IFileCopier _fileCopier;
 
         public FileCopyQueueConsumer(
-            [NotNull] IFileCopier fileCopier)
+             IFileCopier fileCopier)
         {
             _fileCopier = fileCopier;
         }
 
         protected override void ProcessMessageImpl(
-            [NotNull] IMessageHeader header,
-            [NotNull] ExtractFileMessage message,
+             IMessageHeader header,
+             ExtractFileMessage message,
             ulong tag)
         {
             if (!message.IsIdentifiableExtraction)

@@ -10,7 +10,7 @@ namespace Microservices.UpdateValues.Execution
     {
         public UpdateValuesQueueConsumer Consumer { get; set; }
 
-        public UpdateValuesHost([NotNull] GlobalOptions globals, IRabbitMqAdapter rabbitMqAdapter = null, bool threaded = false) : base(globals, rabbitMqAdapter, threaded)
+        public UpdateValuesHost( GlobalOptions globals, IRabbitMqAdapter rabbitMqAdapter = null, bool threaded = false) : base(globals, rabbitMqAdapter, threaded)
         {
             FansiImplementations.Load();
         }

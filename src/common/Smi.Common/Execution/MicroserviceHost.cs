@@ -45,7 +45,7 @@ namespace Smi.Common.Execution
         /// <param name="rabbitMqAdapter"></param>
         /// <param name="threaded"></param>
         protected MicroserviceHost(
-            [NotNull] GlobalOptions globals,
+             GlobalOptions globals,
             IRabbitMqAdapter rabbitMqAdapter = null,
             bool threaded = false)
         {

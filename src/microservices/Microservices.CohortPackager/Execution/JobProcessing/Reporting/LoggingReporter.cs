@@ -15,7 +15,7 @@ namespace Microservices.CohortPackager.Execution.JobProcessing.Reporting
         private readonly ILogger _logger;
 
         public LoggingReporter(
-            [NotNull] IExtractJobStore jobStore,
+             IExtractJobStore jobStore,
             ReportFormat reportFormat,
             [CanBeNull] string reportNewLine
         )

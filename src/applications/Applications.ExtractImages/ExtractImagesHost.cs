@@ -23,8 +23,8 @@ namespace Applications.ExtractImages
 
 
         public ExtractImagesHost(
-            [NotNull] GlobalOptions globals,
-            [NotNull] ExtractImagesCliOptions cliOptions,
+             GlobalOptions globals,
+             ExtractImagesCliOptions cliOptions,
             IExtractionMessageSender extractionMessageSender = null,
             IRabbitMqAdapter rabbitMqAdapter = null,
             IFileSystem fileSystem = null,

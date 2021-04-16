@@ -12,22 +12,22 @@ namespace Microservices.FileCopier.Execution
 {
     public class ExtractionFileCopier : IFileCopier
     {
-        [NotNull] private readonly FileCopierOptions _options;
+         private readonly FileCopierOptions _options;
 
-        [NotNull] private readonly IProducerModel _copyStatusProducerModel;
+         private readonly IProducerModel _copyStatusProducerModel;
 
-        [NotNull] private readonly string _fileSystemRoot;
-        [NotNull] private readonly string _extractionRoot;
-        [NotNull] private readonly IFileSystem _fileSystem;
+         private readonly string _fileSystemRoot;
+         private readonly string _extractionRoot;
+         private readonly IFileSystem _fileSystem;
 
-        [NotNull] private readonly ILogger _logger;
+         private readonly ILogger _logger;
 
 
         public ExtractionFileCopier(
-            [NotNull] FileCopierOptions options,
-            [NotNull] IProducerModel copyStatusCopyStatusProducerModel,
-            [NotNull] string fileSystemRoot,
-            [NotNull] string extractionRoot,
+             FileCopierOptions options,
+             IProducerModel copyStatusCopyStatusProducerModel,
+             string fileSystemRoot,
+             string extractionRoot,
             [CanBeNull] IFileSystem fileSystem = null)
         {
             _options = options;
@@ -46,8 +46,8 @@ namespace Microservices.FileCopier.Execution
         }
 
         public void ProcessMessage(
-            [NotNull] ExtractFileMessage message,
-            [NotNull] IMessageHeader header)
+             ExtractFileMessage message,
+             IMessageHeader header)
         {
             string fullSrc = _fileSystem.Path.Combine(_fileSystemRoot, message.DicomFilePath);
 
