@@ -25,7 +25,7 @@ namespace Microservices.IdentifierMapper.Execution.Swappers
 
         private DiscoveredTable _table;
 
-        private readonly Dictionary<string, string> _cachedAnswers = new Dictionary<string, string>();
+        private readonly Dictionary<string, string?> _cachedAnswers = new Dictionary<string, string>();
         private readonly object _oCacheLock = new object();
 
         private int _swapColumnLength;
@@ -49,7 +49,7 @@ namespace Microservices.IdentifierMapper.Execution.Swappers
                 CreateTableIfNotExists();
         }
 
-        public override string GetSubstitutionFor(string toSwap, out string reason)
+        public override string GetSubstitutionFor(string toSwap, out string? reason)
         {
             reason = null;
 

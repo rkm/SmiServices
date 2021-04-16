@@ -16,7 +16,7 @@ namespace IsIdentifiableReviewer.Out.UpdateStrategies
     public class RegexUpdateStrategy : UpdateStrategy
     {
         ProblemValuesUpdateStrategy _fallback = new ProblemValuesUpdateStrategy();
-        
+
         /// <summary>
         /// Returns SQL for updating the <paramref name="table"/> to redact the capture groups in <see cref="IsIdentifiableRule.IfPattern"/>.  If no capture groups are represented in the <paramref name="usingRule"/> then this class falls back on <see cref="ProblemValuesUpdateStrategy"/>
         /// </summary>
@@ -25,7 +25,7 @@ namespace IsIdentifiableReviewer.Out.UpdateStrategies
         /// <param name="failure"></param>
         /// <param name="usingRule"></param>
         /// <returns></returns>
-        public override IEnumerable<string> GetUpdateSql(DiscoveredTable table, Dictionary<DiscoveredTable, DiscoveredColumn> primaryKeys, Failure failure, IsIdentifiableRule usingRule)
+        public override IEnumerable<string> GetUpdateSql(DiscoveredTable table, Dictionary<DiscoveredTable, DiscoveredColumn> primaryKeys, Failure failure, IsIdentifiableRule? usingRule)
         {
             if (usingRule == null || string.IsNullOrWhiteSpace(usingRule.IfPattern))
                 return _fallback.GetUpdateSql(table, primaryKeys, failure, usingRule);

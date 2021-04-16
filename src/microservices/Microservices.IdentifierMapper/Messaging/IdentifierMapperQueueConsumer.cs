@@ -76,7 +76,7 @@ namespace Microservices.IdentifierMapper.Messaging
 
         protected override void ProcessMessageImpl(IMessageHeader header, DicomFileMessage msg, ulong tag)
         {
-            string errorReason = null;
+            string? errorReason = null;
             var success = false;
 
             try
@@ -107,6 +107,9 @@ namespace Microservices.IdentifierMapper.Messaging
 
             if (!success)
             {
+                if (errorReason == null)
+                    throw new NullReferenceException(nameof(success));
+                
                 Logger.Info("Could not swap identifiers for message " + header.MessageGuid + ". Reason was: " + errorReason);
                 ErrorAndNack(header, tag, errorReason, null);
             }
@@ -158,7 +161,7 @@ namespace Microservices.IdentifierMapper.Messaging
                 return false;
             }
 
-            string to = _swapper.GetSubstitutionFor(from, out reason);
+            string to = _swapper.GetSubstitutionFor(@from, out reason);
 
             if (to == null)
             {

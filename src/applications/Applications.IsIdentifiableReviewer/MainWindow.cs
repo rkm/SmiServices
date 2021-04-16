@@ -19,7 +19,7 @@ namespace IsIdentifiableReviewer
         /// <summary>
         /// The report CSV file that is currently open
         /// </summary>
-        public ReportReader CurrentReport { get; set; }
+        public ReportReader? CurrentReport { get; set; }
 
         /// <summary>
         /// Generates suggested ignore rules for false positives
@@ -241,15 +241,12 @@ namespace IsIdentifiableReviewer
         {
             if(CurrentReport == null)
                 return;
-
-            try
-            {
-                GoTo(int.Parse(_gotoTextField.Text.ToString()));
-            }
-            catch (FormatException)
-            {
+            
+            if(!int.TryParse(_gotoTextField.Text.ToString(), out int page))
                 //use typed in 'hello there! or some such'
-            }
+                return;
+
+            GoTo(page);
         }
         
         private void GoTo(int page)
@@ -269,7 +266,7 @@ namespace IsIdentifiableReviewer
             
         }
 
-        private void SetupToShow(Failure f)
+        private void SetupToShow(Failure? f)
         {
             _valuePane.CurrentFailure = f;
 
@@ -385,12 +382,12 @@ namespace IsIdentifiableReviewer
 
             Application.Run(ofd);
 
-            var f = ofd.FilePaths?.SingleOrDefault();
+            string? f = ofd.FilePaths?.SingleOrDefault();
 
             OpenReport(f,(e)=>ShowException("Failed to Load", e));
         }
 
-        private void OpenReport(string path, Action<Exception> exceptionHandler)
+        private void OpenReport(string? path, Action<Exception> exceptionHandler)
         {
             if ( path == null)
                 return;

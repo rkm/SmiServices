@@ -28,7 +28,7 @@ namespace Smi.Common.Messaging
         /// <summary>
         /// Event raised when Fatal method called
         /// </summary>
-        public event ConsumerFatalHandler OnFatal;
+        public event ConsumerFatalHandler? OnFatal;
 
 
         protected readonly ILogger Logger;
@@ -161,10 +161,9 @@ namespace Smi.Common.Messaging
             NackCount++;
         }
 
-        protected virtual void ErrorAndNack(IMessageHeader header, ulong tag, string message, Exception exception)
+        protected virtual void ErrorAndNack(IMessageHeader? header, ulong tag, string message, Exception exception)
         {
-            if (header != null)
-                header.Log(Logger, LogLevel.Error, message, exception);
+            header?.Log(Logger, LogLevel.Error, message, exception);
 
             DiscardSingleMessage(tag);
         }

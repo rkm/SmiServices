@@ -32,7 +32,7 @@ namespace Microservices.CohortPackager.Execution.ExtractJobStorage.MongoDB
         private readonly DateTimeProvider _dateTimeProvider;
 
 
-        public MongoExtractJobStore(IMongoClient client, string extractionDatabaseName, DateTimeProvider dateTimeProvider = null)
+        public MongoExtractJobStore(IMongoClient client, string extractionDatabaseName, DateTimeProvider? dateTimeProvider = null)
         {
             _client = client;
             _database = _client.GetDatabase(extractionDatabaseName);

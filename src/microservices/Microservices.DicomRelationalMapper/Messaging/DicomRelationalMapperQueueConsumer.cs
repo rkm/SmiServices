@@ -204,7 +204,7 @@ namespace Microservices.DicomRelationalMapper.Messaging
                 RunDleChecks();
 
             int remainingRetries = _retryOnFailureCount;
-            Exception firstException = null;
+            Exception? firstException = null;
 
             ExitCodeType exitCode;
 
@@ -247,7 +247,7 @@ namespace Microservices.DicomRelationalMapper.Messaging
                         }
                     }
 
-                    firstException = firstException ?? e;
+                    firstException ??= e;
                 }
             }
             while (remainingRetries-- > 0 && (exitCode == ExitCodeType.Error || exitCode == ExitCodeType.Abort));
@@ -273,7 +273,7 @@ namespace Microservices.DicomRelationalMapper.Messaging
                 case ExitCodeType.Abort:
                     {
                         _stopTokenSource.Cancel();
-                        Fatal("DLE Crashed " + (_retryOnFailureCount + 1) + " time(s) on the same batch", firstException);
+                        Fatal("DLE Crashed " + (_retryOnFailureCount + 1) + " time(s) on the same batch", firstException ?? new Exception("Unknown"));
                         break;
                     }
                 default:

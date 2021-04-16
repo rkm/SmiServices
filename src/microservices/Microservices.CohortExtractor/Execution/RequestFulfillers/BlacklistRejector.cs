@@ -17,9 +17,9 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
     {
         private readonly ICatalogue _catalogue;
         private QueryToExecuteColumnSet _columnSet;
-        private SpontaneouslyInventedFilter _studyFilter;
-        private SpontaneouslyInventedFilter _seriesFilter;
-        private SpontaneouslyInventedFilter _instanceFilter;
+        private SpontaneouslyInventedFilter? _studyFilter;
+        private SpontaneouslyInventedFilter? _seriesFilter;
+        private SpontaneouslyInventedFilter? _instanceFilter;
         private QueryBuilder _queryBuilder;
         private DiscoveredServer _server;
 
@@ -111,7 +111,7 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
         /// <param name="seriesuid"></param>
         /// <param name="imageuid"></param>
         /// <returns></returns>
-        public bool DoLookup(string studyuid, string seriesuid, string imageuid)
+        public bool DoLookup(string? studyuid, string? seriesuid, string? imageuid)
         {
             string sql = _queryBuilder.SQL;
             

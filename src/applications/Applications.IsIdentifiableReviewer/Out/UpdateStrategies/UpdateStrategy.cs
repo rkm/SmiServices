@@ -20,7 +20,7 @@ namespace IsIdentifiableReviewer.Out.UpdateStrategies
         /// <param name="failure"></param>
         /// <param name="usingRule"></param>
         /// <returns></returns>
-        public abstract IEnumerable<string> GetUpdateSql(DiscoveredTable table,Dictionary<DiscoveredTable, DiscoveredColumn> primaryKeys, Failure failure, IsIdentifiableRule usingRule);
+        public abstract IEnumerable<string> GetUpdateSql(DiscoveredTable table, Dictionary<DiscoveredTable, DiscoveredColumn> primaryKeys, Failure failure, IsIdentifiableRule? usingRule);
 
         /// <summary>
         /// Returns SQL to update a single <paramref name="word"/> in the <paramref name="table"/> row referenced by the primary key value

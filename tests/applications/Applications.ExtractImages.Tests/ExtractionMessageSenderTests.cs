@@ -122,10 +122,9 @@ namespace Applications.ExtractImages.Tests
             mockExtractionRequestProducer.Verify(expr, Times.Once);
             mockExtractionRequestInfoProducer.Verify(expr, Times.Once);
         }
-
-        [TestCase(null)]
+        
         [TestCase("  ")]
-        public void ExtractionDir_IsValidated(string? extractionDir)
+        public void ExtractionDir_IsValidated(string extractionDir)
         {
             var exc = Assert.Throws<ArgumentException>(() =>
             {

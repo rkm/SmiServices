@@ -28,7 +28,7 @@ namespace Microservices.FileCopier.Execution
              IProducerModel copyStatusCopyStatusProducerModel,
              string fileSystemRoot,
              string extractionRoot,
-            [CanBeNull] IFileSystem fileSystem = null)
+            IFileSystem? fileSystem = null)
         {
             _options = options;
             _copyStatusProducerModel = copyStatusCopyStatusProducerModel;

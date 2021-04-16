@@ -24,7 +24,7 @@ namespace Terminal.Gui
 		/// The control to display when the tab is selected
 		/// </summary>
 		/// <value></value>
-		public View View { get; set; }
+		public View? View { get; set; }
 
 		/// <summary>
 		/// Creates a new unamed tab with no controls inside
@@ -80,7 +80,7 @@ namespace Terminal.Gui
 	/// </summary>
 	public class TabView : View
 	{
-		private Tab selectedTab;
+		private Tab? selectedTab;
 
 		/// <summary>
 		/// This sub view is the 2 or 3 line control that represents the actual tabs themselves
@@ -117,7 +117,7 @@ namespace Terminal.Gui
 		/// The currently selected member of <see cref="Tabs"/> chosen by the user
 		/// </summary>
 		/// <value></value>
-		public Tab SelectedTab
+		public Tab? SelectedTab
 		{
 			get => selectedTab;
 			set
@@ -125,17 +125,13 @@ namespace Terminal.Gui
 
 				var old = selectedTab;
 
-				if (selectedTab != null)
-				{
+                if (selectedTab?.View != null)
+                {
+                    // remove old content
+                    contentView.Remove(selectedTab.View);
+                }
 
-					if (selectedTab.View != null)
-					{
-						// remove old content
-						contentView.Remove(selectedTab.View);
-					}
-				}
-
-				selectedTab = value;
+                selectedTab = value;
 
 				if (value != null)
 				{
@@ -278,7 +274,7 @@ namespace Terminal.Gui
 		/// <summary>
 		/// Raises the <see cref="SelectedTabChanged"/> event
 		/// </summary>
-		protected virtual void OnSelectedTabChanged(Tab oldTab, Tab newTab)
+		protected virtual void OnSelectedTabChanged(Tab? oldTab, Tab? newTab)
 		{
 
 			SelectedTabChanged?.Invoke(this, new TabChangedEventArgs(oldTab, newTab));
@@ -818,21 +814,21 @@ namespace Terminal.Gui
 	{
 
 		/// <summary>
-		/// The previously selected tab. May be null
+		/// The previously selected tab.
 		/// </summary>
-		public Tab OldTab { get; }
+		public Tab? OldTab { get; }
 
 		/// <summary>
-		/// The currently selected tab. May be null
+		/// The currently selected tab.
 		/// </summary>
-		public Tab NewTab { get; }
+		public Tab? NewTab { get; }
 
 		/// <summary>
 		/// Documents a tab change
 		/// </summary>
 		/// <param name="oldTab"></param>
 		/// <param name="newTab"></param>
-		public TabChangedEventArgs(Tab oldTab, Tab newTab)
+		public TabChangedEventArgs(Tab? oldTab, Tab? newTab)
 		{
 			OldTab = oldTab;
 			NewTab = newTab;

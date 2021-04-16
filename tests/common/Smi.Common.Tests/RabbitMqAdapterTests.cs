@@ -225,11 +225,11 @@ namespace Smi.Common.Tests
             var o = new GlobalOptionsFactory().Load(nameof(Test_Shutdown));
 
             var consumer = (IConsumer)Activator.CreateInstance(consumerType);
-
+            
             //connect to rabbit with a new consumer
             using (var tester = new MicroserviceTester(o.RabbitOptions, new []{_testConsumerOptions}))
             {
-                _testAdapter.StartConsumer(_testConsumerOptions, consumer, true);
+                _testAdapter.StartConsumer(_testConsumerOptions, consumer!, true);
                 
                 //send a message to trigger consumer behaviour
                 tester.SendMessage(_testConsumerOptions,new TestMessage());

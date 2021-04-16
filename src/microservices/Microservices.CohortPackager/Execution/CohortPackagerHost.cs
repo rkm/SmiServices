@@ -45,12 +45,12 @@ namespace Microservices.CohortPackager.Execution
         /// <param name="dateTimeProvider"></param>
         public CohortPackagerHost(
              GlobalOptions globals,
-            [CanBeNull] ExtractJobStore jobStore = null,
-            [CanBeNull] IFileSystem fileSystem = null,
-            [CanBeNull] IJobReporter reporter = null,
-            [CanBeNull] IJobCompleteNotifier notifier = null,
-            [CanBeNull] IRabbitMqAdapter rabbitMqAdapter = null,
-            [CanBeNull] DateTimeProvider dateTimeProvider = null
+            ExtractJobStore? jobStore = null,
+            IFileSystem? fileSystem = null,
+            IJobReporter? reporter = null,
+            IJobCompleteNotifier? notifier = null,
+            IRabbitMqAdapter? rabbitMqAdapter = null,
+            DateTimeProvider? dateTimeProvider = null
         )
             : base(globals, rabbitMqAdapter)
         {

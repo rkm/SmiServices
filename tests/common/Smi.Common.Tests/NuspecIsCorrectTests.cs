@@ -42,9 +42,9 @@ namespace Smi.Common.Tests
         [TestCase("../../../../../../../src/microservices/Microservices.MongoDbPopulator/Microservices.MongoDbPopulator.csproj", null, null)]
         [TestCase("../../../../../../../src/microservices/Microservices.IsIdentifiable/Microservices.IsIdentifiable.csproj", null, null)]
 
-        public void TestDependencyCorrect(string csproj, string nuspec, string packagesMarkdown)
+        public void TestDependencyCorrect(string csproj, string? nuspec, string? packagesMarkdown)
         {
-            if (csproj != null && !Path.IsPathRooted(csproj))
+            if (!Path.IsPathRooted(csproj))
                 csproj = Path.Combine(TestContext.CurrentContext.TestDirectory, csproj);
 
             if (nuspec != null && !Path.IsPathRooted(nuspec))

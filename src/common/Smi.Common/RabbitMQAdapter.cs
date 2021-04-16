@@ -150,7 +150,7 @@ namespace Smi.Common
                 throw new ApplicationException($"Already a consumer on queue {consumerOptions.QueueName} and solo consumer was specified");
             }
 
-            Subscription subscription = null;
+            Subscription? subscription = null;
             var connected = false;
             var failed = 0;
 
@@ -187,6 +187,9 @@ namespace Smi.Common
                 }
             }
 
+            if (subscription == null)
+                throw new NullReferenceException("Subscription null after connection");
+            
             Guid taskId = Guid.NewGuid();
             var taskTokenSource = new CancellationTokenSource();
 

@@ -298,7 +298,7 @@ namespace Terminal.Gui {
 		/// Determines how sub branches of the tree are dynamically built at runtime as the user expands root nodes
 		/// </summary>
 		/// <value></value>
-		public ITreeBuilder<T> TreeBuilder { get;set;}
+		public ITreeBuilder<T>? TreeBuilder { get;set;}
 
 		/// <summary>
 		/// private variable for <see cref="SelectedObject"/>
@@ -1178,7 +1178,7 @@ namespace Terminal.Gui {
 		/// <summary>
 		/// The children of the current branch.  This is null until the first call to <see cref="FetchChildren"/> to avoid enumerating the entire underlying hierarchy
 		/// </summary>
-		public Dictionary<T,Branch<T>> ChildBranches {get;set;}
+		public Dictionary<T,Branch<T>>? ChildBranches {get;set;}
 
 		/// <summary>
 		/// The parent <see cref="Branch{T}"/> or null if it is a root.
@@ -1204,18 +1204,21 @@ namespace Terminal.Gui {
 			}
 		}
 
-
 		/// <summary>
 		/// Fetch the children of this branch. This method populates <see cref="ChildBranches"/>
 		/// </summary>
-		public virtual void FetchChildren()
+		/// <param name="requireChildBranches">If true, an exception wil be thrown if the method would normally exit without setting ChildBranches</param>
+		public virtual void FetchChildren(bool requireChildBranches = false)
 		{
-			if (tree.TreeBuilder == null)
-				return;
+            if (tree.TreeBuilder == null)
+            {
+				if (requireChildBranches)
+					throw new NullReferenceException(nameof(tree.TreeBuilder));
+                return;
+            }
 
-			var children = tree.TreeBuilder.GetChildren(this.Model) ?? Enumerable.Empty<T>();
-
-			this.ChildBranches = children.ToDictionary(k=>k,val=>new Branch<T>(tree,this,val));
+			var children = tree.TreeBuilder.GetChildren(Model);
+            ChildBranches = children.ToDictionary(k=>k,val=>new Branch<T>(tree,this,val));
 		}
 
 		/// <summary>
@@ -1409,8 +1412,8 @@ namespace Terminal.Gui {
 				FetchChildren();
 			}
 
-			//we fetched or already know the children, so return whether we have any
-			return ChildBranches.Any();
+			// Nullability: We fetched or already know the children, so return whether we have any
+			return ChildBranches!.Any();
 		}
 
 		/// <summary>
@@ -1419,10 +1422,11 @@ namespace Terminal.Gui {
 		public void Expand()
 		{
 			if(ChildBranches == null) {
-				FetchChildren();
+				FetchChildren(requireChildBranches: true);
 			}
 
-			if (ChildBranches.Any ()) {
+			// Nullable: ChildBranches will be set in FetchChildren since we have specified requireChildBranches
+			if (ChildBranches!.Any ()) {
 				IsExpanded = true;
 			}
 		}

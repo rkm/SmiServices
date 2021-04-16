@@ -21,7 +21,7 @@ namespace Microservices.IdentifierMapper.Tests
 
         public override void Setup(IMappingTableOptions mappingTableOptions) { }
 
-        public override string GetSubstitutionFor(string toSwap, out string reason)
+        public override string GetSubstitutionFor(string toSwap, out string? reason)
         {
             reason = null;
             Success++;

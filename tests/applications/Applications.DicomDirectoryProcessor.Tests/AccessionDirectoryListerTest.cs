@@ -50,7 +50,7 @@ namespace Applications.DicomDirectoryProcessor.Tests
         {
 			// Mock file system referenced in accession list
             MockFileSystem mockFilesystem = new MockFileSystem(null,Environment.CurrentDirectory);
-			string rootDir = Path.Combine(Path.GetPathRoot(Environment.CurrentDirectory),"PACS");
+			string rootDir = Path.Combine(Path.GetPathRoot(Environment.CurrentDirectory)!,"PACS");
 
 	    string testDicom = Path.GetFullPath(Path.Combine(rootDir, "2018/01/01/AAA/test.dcm"));
 	    mockFilesystem.AddFile(testDicom, MockFileData.NullObject);

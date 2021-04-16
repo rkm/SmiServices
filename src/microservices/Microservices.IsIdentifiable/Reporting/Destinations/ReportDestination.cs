@@ -27,11 +27,9 @@ namespace Microservices.IsIdentifiable.Reporting.Destinations
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        protected object StripWhitespace(object o)
+        protected object StripWhitespace(object? o)
         {
-            var s = o as string;
-
-            if (s != null && Options.DestinationNoWhitespace)
+            if (o is string s && Options.DestinationNoWhitespace)
                 return _multiSpaceRegex.Replace(s.Replace("\t", "").Replace("\r", "").Replace("\n", ""), " ");
 
             return o;

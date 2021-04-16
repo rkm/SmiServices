@@ -10,6 +10,7 @@ using Smi.Common.Messages;
 using Smi.Common.Tests;
 using System.IO.Compression;
 using System.Collections.Generic;
+using NuGet.Frameworks;
 
 namespace Microservices.DicomTagReader.Tests.Execution
 {
@@ -149,7 +150,7 @@ namespace Microservices.DicomTagReader.Tests.Execution
             Assert.True(message != null);
 
             var seriesMessage = message as SeriesMessage;
-            Assert.True(seriesMessage != null);
+            Assert.NotNull(seriesMessage);
             Assert.True(seriesMessage.ImagesInSeries == 2);
         }
 
@@ -200,7 +201,7 @@ namespace Microservices.DicomTagReader.Tests.Execution
             Assert.True(message != null);
 
             var seriesMessage = message as SeriesMessage;
-            Assert.True(seriesMessage != null);
+            Assert.NotNull(seriesMessage);
             
             Assert.True(seriesMessage.ImagesInSeries == 4, "Expected 4, 2 in the zip archive and 2 in the root");
 

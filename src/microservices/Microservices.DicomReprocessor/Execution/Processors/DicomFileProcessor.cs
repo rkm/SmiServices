@@ -61,7 +61,9 @@ namespace Microservices.DicomReprocessor.Execution.Processors
         public void ProcessDocument(BsonDocument document)
         {
             string documentId = document["_id"].ToString();
-
+            if (documentId == null)
+                throw new NullReferenceException(nameof(documentId));
+            
             var headerDoc = document["header"] as BsonDocument;
 
             if (headerDoc == null)

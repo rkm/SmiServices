@@ -30,7 +30,7 @@ namespace Smi.Common.Execution
         private bool _auxConnectionsCreated;
 
         private readonly ProducerOptions _fatalLoggingProducerOptions;
-        private IProducerModel _fatalLoggingProducer;
+        private IProducerModel? _fatalLoggingProducer;
 
         private readonly ControlMessageConsumer _controlMessageConsumer;
 
@@ -45,11 +45,11 @@ namespace Smi.Common.Execution
         /// <param name="rabbitMqAdapter"></param>
         /// <param name="threaded"></param>
         protected MicroserviceHost(
-             GlobalOptions globals,
-            IRabbitMqAdapter rabbitMqAdapter = null,
+            GlobalOptions globals,
+            IRabbitMqAdapter? rabbitMqAdapter = null,
             bool threaded = false)
         {
-            if (globals == null || globals.FileSystemOptions == null || globals.RabbitOptions == null || globals.LoggingOptions == null)
+            if (globals.FileSystemOptions == null || globals.RabbitOptions == null || globals.LoggingOptions == null)
                 throw new ArgumentException("All or part of the global options are null");
 
             HostProcessName = globals.HostProcessName;

@@ -42,8 +42,6 @@ namespace Microservices.MongoDBPopulator.Tests.Execution.Processing
 
         private void Validate(DicomFileMessage message, MessageHeader header, BsonDocument document)
         {
-            Assert.False(message == null || document == null);
-
             BsonElement element;
             Assert.True(document.TryGetElement("header", out element));
 

@@ -19,6 +19,6 @@ namespace IsIdentifiableReviewer.Out.UpdateStrategies
         /// <param name="usingRule">How to redact the <see cref="Failure.ProblemValue"/></param>
         /// <returns></returns>
         IEnumerable<string> GetUpdateSql(DiscoveredTable table,
-            Dictionary<DiscoveredTable, DiscoveredColumn> primaryKeys, Failure failure, IsIdentifiableRule usingRule);
+            Dictionary<DiscoveredTable, DiscoveredColumn> primaryKeys, Failure failure, IsIdentifiableRule? usingRule);
     }
 }

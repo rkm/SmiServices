@@ -148,7 +148,7 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
                         continue;
 
                     bool reject = false;
-                    string rejectReason = null;
+                    string? rejectReason = null;
 
                     //Ask the rejectors how good this record is
                     foreach (IRejector rejector in rejectors)
@@ -160,13 +160,14 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
                         }
                     }
 
-                    yield return
-                    new QueryToExecuteResult((string)imagePath,
+                    yield return new QueryToExecuteResult(
+                        (string)imagePath,
                         study == null ? null : (string)reader[study],
                         series == null ? null : (string)(string)reader[series],
                         instance == null ? null : (string)(string)reader[instance],
                         reject,
-                        rejectReason);
+                        rejectReason
+                    );
                 }
             }
         }

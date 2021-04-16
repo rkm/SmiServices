@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,18 +52,17 @@ namespace IsIdentifiableReviewer.Out
         public RowUpdater() : this(new FileInfo(DefaultFileName))
         {
         }
-        
+
         /// <summary>
         /// Update the database <paramref name="server"/> to redact the <paramref name="failure"/>.
         /// </summary>
         /// <param name="server">Where to connect to get the data, can be null if <see cref="RulesOnly"/> is true</param>
         /// <param name="failure">The failure to redact/create a rule for</param>
         /// <param name="usingRule">Pass null to create a new rule or give value to reuse an existing rule</param>
-        public void Update(DiscoveredServer server, Failure failure, IsIdentifiableRule usingRule)
+        public void Update(DiscoveredServer server, Failure failure, IsIdentifiableRule? usingRule)
         {
             //theres no rule yet so create one (and add to RedList.yaml)
-            if(usingRule == null)
-                usingRule = Add(failure,RuleAction.Report);
+            usingRule ??= Add(failure, RuleAction.Report);
 
             //if we are running in rules only mode we don't need to also update the database
             if(RulesOnly)
@@ -90,8 +89,9 @@ namespace IsIdentifiableReviewer.Out
             //if we've never seen this table before
             if (!_primaryKeys.ContainsKey(table))
             {
-                var pk = table.DiscoverColumns().SingleOrDefault(k => k.IsPrimaryKey);
-                _primaryKeys.Add(table,pk);
+                DiscoveredColumn? pk = table.DiscoverColumns().SingleOrDefault(k => k.IsPrimaryKey);
+                if(pk != null)
+                    _primaryKeys.Add(table,pk);
             }
 
             using (var con = server.GetConnection())
@@ -123,7 +123,7 @@ namespace IsIdentifiableReviewer.Out
         /// <param name="failure"></param>
         /// <param name="rule">The first rule that covered the <paramref name="failure"/></param>
         /// <returns>True if <paramref name="failure"/> is novel and not seen before</returns>
-        public bool OnLoad(DiscoveredServer server,Failure failure, out IsIdentifiableRule rule)
+        public bool OnLoad(DiscoveredServer? server,Failure failure, out IsIdentifiableRule rule)
         {
             // if we are not updating the server just tell them if it is novel or not
             if (server == null)

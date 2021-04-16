@@ -19,7 +19,7 @@ namespace Microservices.IdentifierMapper.Execution.Swappers
         /// <param name="toSwap"></param>
         /// <param name="reason"></param>
         /// <returns></returns>
-        string GetSubstitutionFor(string toSwap, out string reason);
+        string GetSubstitutionFor(string toSwap, out string? reason);
 
         /// <summary>
         /// Clear the mapping cache (if exists) and reload

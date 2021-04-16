@@ -184,7 +184,7 @@ namespace Microservices.DeadLetterReprocessor.Execution.DeadLetterStorage
             }
         }
 
-        public void SendToGraveyard(BasicDeliverEventArgs deliverArgs, IMessageHeader header, string reason, Exception cause = null)
+        public void SendToGraveyard(BasicDeliverEventArgs deliverArgs, IMessageHeader header, string reason, Exception? cause = null)
         {
             _logger.Debug("Sending message " + header.MessageGuid + " to the graveyard (" + reason + ")");
 

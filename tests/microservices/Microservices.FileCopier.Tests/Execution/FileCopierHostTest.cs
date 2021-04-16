@@ -82,7 +82,7 @@ namespace Microservices.FileCopier.Tests.Execution
             using IConnection conn = tester.Factory.CreateConnection();
             using IModel model = conn.CreateModel();
             var consumer = new EventingBasicConsumer(model);
-            ExtractedFileStatusMessage statusMessage = null;
+            ExtractedFileStatusMessage? statusMessage = null;
             consumer.Received += (_, ea) => statusMessage = JsonConvert.DeserializeObject<ExtractedFileStatusMessage>(Encoding.UTF8.GetString(ea.Body.ToArray()));
             model.BasicConsume(outputQueueName, true, "", consumer);
 

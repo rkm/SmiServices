@@ -44,10 +44,8 @@ namespace Microservices.IsIdentifiable.Tests
 
             report.CloseReport();
 
-            var created = dir.GetFiles("*HappyOzz*.csv").SingleOrDefault();
-
-            Assert.IsNotNull(created);
-
+            FileInfo created = dir.GetFiles("*HappyOzz*.csv").Single();
+            
             var report2 = new FailureStoreReport("", 0);
             var failures2 = report2.Deserialize(created).ToArray();
 

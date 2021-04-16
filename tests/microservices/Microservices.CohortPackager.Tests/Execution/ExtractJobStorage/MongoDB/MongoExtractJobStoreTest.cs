@@ -197,8 +197,10 @@ namespace Microservices.CohortPackager.Tests.Execution.ExtractJobStorage.MongoDB
                     : DeleteResult.Unacknowledged.Instance;
             }
 
-            private static TKey GetKey(dynamic key)
+            private static TKey GetKey(dynamic? key)
             {
+                if (key == null) throw new ArgumentNullException(nameof(key));
+                
                 if (typeof(TKey) == typeof(string))
                     return key;
                 if (typeof(TKey) == typeof(Guid))

@@ -165,10 +165,12 @@ namespace Microservices.IsIdentifiable.Runners
                 if (value is IEnumerable<string>)
                     foreach (var s in (IEnumerable<string>)value)
                         Validate(fi, dicomFile, dicomItem, s);
-
-                if (value is DateTime && _opts.NoDateFields && _zeroDate != (DateTime)value)
-                    AddToReports(factory.Create(fi, dicomFile, value.ToString(), dicomItem.Tag.DictionaryEntry.Keyword, new[] { new FailurePart(value.ToString(), FailureClassification.Date, 0) }));
-
+                
+                if(_opts.NoDateFields)
+                {
+                    if(value is DateTime asDt && _zeroDate != asDt)
+                        AddToReports(factory.Create(fi, dicomFile, asDt.ToString(), dicomItem.Tag.DictionaryEntry.Keyword, new[] { new FailurePart(asDt.ToString(), FailureClassification.Date, 0) }));
+                }
             }
         }
 

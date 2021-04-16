@@ -14,7 +14,7 @@ namespace Microservices.FileCopier.Execution
 
         public FileCopierHost(
              GlobalOptions options,
-            [CanBeNull] IFileSystem fileSystem = null
+            IFileSystem? fileSystem = null
         )
         : base(
             options

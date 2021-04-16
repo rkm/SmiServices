@@ -82,12 +82,12 @@ namespace Smi.Common.Messages.Extraction
             }
         }
 
-        public static bool operator ==(ExtractedFileStatusMessage left, ExtractedFileStatusMessage right)
+        public static bool operator ==(ExtractedFileStatusMessage? left, ExtractedFileStatusMessage? right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ExtractedFileStatusMessage left, ExtractedFileStatusMessage right)
+        public static bool operator !=(ExtractedFileStatusMessage? left, ExtractedFileStatusMessage? right)
         {
             return !Equals(left, right);
         }

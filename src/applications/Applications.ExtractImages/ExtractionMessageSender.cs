@@ -45,7 +45,7 @@ namespace Applications.ExtractImages
             _extractionRequestProducer = extractionRequestProducer;
             _extractionRequestInfoProducer = extractionRequestInfoProducer;
 
-            _extractionDir = (!string.IsNullOrWhiteSpace(extractionDir)) ? extractionDir : throw new ArgumentException(nameof(extractionDir));
+            _extractionDir = extractionDir;
             _dateTimeProvider = dateTimeProvider;
             _consoleInput = consoleInput;
 

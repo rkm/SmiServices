@@ -45,10 +45,10 @@ namespace Microservices.CohortExtractor.Execution.RequestFulfillers
         public bool HasAllUIDs => StudyTagColumn != null && SeriesTagColumn != null && InstanceTagColumn != null;
 
         public QueryToExecuteColumnSet(ICatalogue catalogue,
-            ExtractionInformation filePathColumn,
-            ExtractionInformation studyTagColumn,
-            ExtractionInformation seriesTagColumn,
-            ExtractionInformation instanceTagColumn,
+            ExtractionInformation? filePathColumn,
+            ExtractionInformation? studyTagColumn,
+            ExtractionInformation? seriesTagColumn,
+            ExtractionInformation? instanceTagColumn,
             bool requireFilePath = true)
         {
             Catalogue = catalogue ?? throw new ArgumentNullException(nameof(catalogue));

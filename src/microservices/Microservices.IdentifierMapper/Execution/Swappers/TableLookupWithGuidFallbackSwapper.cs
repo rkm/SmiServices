@@ -70,7 +70,7 @@ namespace Microservices.IdentifierMapper.Execution.Swappers
 
             return mappingTable.Database.ExpectTable(guidTableName,mappingTable.Schema,TableType.Table);
         }
-         
+
         /// <summary>
         /// Returns a substitution from the wrapped <see cref="TableLookupSwapper"/>.  If no match is found then a guid is allocated
         /// and stored using a wrapped <see cref="ForGuidIdentifierSwapper"/>.
@@ -78,7 +78,7 @@ namespace Microservices.IdentifierMapper.Execution.Swappers
         /// <param name="toSwap"></param>
         /// <param name="reason"></param>
         /// <returns></returns>
-        public override string GetSubstitutionFor(string toSwap, out string reason)
+        public override string GetSubstitutionFor(string toSwap, out string? reason)
         {
             //get answer from lookup table
             var answer = _tableSwapper.GetSubstitutionFor(toSwap, out reason);

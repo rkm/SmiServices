@@ -276,14 +276,14 @@ namespace Microservices.IsIdentifiable.Runners
 
         // ReSharper disable once UnusedMemberInSuper.Global
         public abstract int Run();
-        
+
         /// <summary>
         /// Returns each subsection of <paramref name="fieldValue"/> which violates validation rules (e.g. the CHI found).
         /// </summary>
         /// <param name="fieldName"></param>
         /// <param name="fieldValue"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<FailurePart> Validate(string fieldName, string fieldValue)
+        protected virtual IEnumerable<FailurePart> Validate(string fieldName, string? fieldValue)
         {
             // make sure that we have a cache for this column name
             var cache = Caches.GetOrAdd(fieldName,(v)=>new MemoryCache(new MemoryCacheOptions()
@@ -308,14 +308,14 @@ namespace Microservices.IsIdentifiable.Runners
                 Size=1
             });
         }
-        
+
         /// <summary>
         /// Actual implementation of <see cref="Validate(string, string)"/> after a cache miss has occurred.  This method is only called when a cached answer is not found for the given <paramref name="fieldName"/> and <paramref name="fieldValue"/> pair
         /// </summary>
         /// <param name="fieldName"></param>
         /// <param name="fieldValue"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<FailurePart> ValidateImpl(string fieldName, string fieldValue)
+        protected virtual IEnumerable<FailurePart> ValidateImpl(string fieldName, string? fieldValue)
         {
             if (_skipColumns.Contains(fieldName))
                 yield break;
