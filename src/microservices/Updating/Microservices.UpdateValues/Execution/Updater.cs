@@ -107,7 +107,7 @@ namespace Microservices.UpdateValues.Execution
             {
                 var col = t.DiscoverColumn(message.WhereFields[i]);
 
-                builder.Append(GetFieldEqualsValueExpression(col,message.HaveValues[i],message.Operators[i]));
+                builder.Append(GetFieldEqualsValueExpression(col,message.HaveValues[i],message.Operators?[i]));
 
                 //if there are more WHERE fields to come
                 if(i < message.WhereFields.Length -1)
@@ -150,7 +150,7 @@ namespace Microservices.UpdateValues.Execution
         /// <param name="value">RHS argument, if null then string literal "null" is used</param>
         /// <param name="op">The SQL operator to use, if null "=" is used</param>
         /// <returns></returns>
-        protected string GetFieldEqualsValueExpression(DiscoveredColumn col, string value, string op)
+        protected string GetFieldEqualsValueExpression(DiscoveredColumn col, string value, string? op)
         {
             StringBuilder builder = new StringBuilder();
 
