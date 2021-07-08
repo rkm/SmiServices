@@ -180,9 +180,8 @@ ProcessDirectoryOptions:
         ExchangeName: 'TEST.AccessionDirectoryExchange'
         MaxConfirmAttempts: 1
 
-CTPAnonymiserOptions:
-    VerifyRoutingKey: verify
-    NoVerifyRoutingKey: noverify
+DicomAnonymiserOptions:
+    AnonymiserType: CTP
     AnonFileConsumerOptions:
         QueueName: 'TEST.ExtractFileAnonQueue'
         QoSPrefetchCount: 1
@@ -190,6 +189,11 @@ CTPAnonymiserOptions:
     ExtractFileStatusProducerOptions:
         ExchangeName: 'TEST.ExtractedFileStatusExchange'
         MaxConfirmAttempts: 1
+    RoutingKeySuccess: verify
+    RoutingKeyFailure: noverify
+    FailIfSourceWriteable: true
+    CtpAnonymiserOptions:
+        AnonScriptPath: ""
 
 FileCopierOptions:
     NoVerifyRoutingKey: noverify
