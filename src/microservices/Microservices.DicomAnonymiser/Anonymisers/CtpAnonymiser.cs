@@ -64,12 +64,16 @@ namespace Microservices.DicomAnonymiser.Anonymisers
             catch (Exception e)
             {
                 _logger.Error(e, "Could not init CTP process");
+                Dispose();
                 throw;
             }
-            finally
-            {
-                Dispose();
-            }
+
+            var fs = new FileSystem();
+            var anonStatus = Anonymise(fs.FileInfo.FromFileName("foo"), fs.FileInfo.FromFileName("bar"));
+            _logger.Debug($"Resp 1: {anonStatus}");
+
+            anonStatus = Anonymise(fs.FileInfo.FromFileName("missing"), fs.FileInfo.FromFileName("bar"));
+            _logger.Debug($"Resp 2: {anonStatus}");
 
             throw new Exception($"eeeee");
         }
@@ -96,10 +100,14 @@ namespace Microservices.DicomAnonymiser.Anonymisers
 
         public ExtractedFileStatus Anonymise(IFileInfo sourceFile, IFileInfo destFile)
         {
-            // CheckErrorData
             _logger.Debug($"Anonymising '{sourceFile}' -> '{destFile}'");
             var resp = SendReceive($"ANON|{sourceFile}|{destFile}");
 
+            if (!resp.Equals($"ANON_OK {destFile}"))
+            {
+                _logger.Error($"CTP did not return ANON_OK. Received '{resp}'");
+                return ExtractedFileStatus.ErrorWontRetry;
+            }
 
             return ExtractedFileStatus.Anonymised;
         }

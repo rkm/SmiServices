@@ -34,7 +34,22 @@ public class Program {
                 if(input.equals("EXIT"))
                     break;
 
-                TimeUnit.SECONDS.sleep(5);
+                if (input.startsWith("ANON"))
+                {
+                    String[] parts =  input.split("\\|");
+                    String sourceFile = parts[1];
+                    String destFile = parts[2];
+                    
+                    if (sourceFile.equals("foo"))
+                        System.out.println("ANON_OK " + destFile);
+                    else                        
+                        System.out.println("oh no!");
+
+                    continue;
+                }
+
+                System.out.println("Unknown command '" + input + "'");
+                break;
 
             } catch (IOException ioe) {
                 System.out.println(ioe);
