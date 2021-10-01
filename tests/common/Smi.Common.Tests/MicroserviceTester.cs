@@ -16,20 +16,18 @@ namespace Smi.Common.Tests
     {
         private readonly RabbitMqAdapter _adapter;
 
+        private readonly string _hostName;
+        private readonly string _testVhost;
+
         private readonly Dictionary<ConsumerOptions, IProducerModel> _sendToConsumers = new Dictionary<ConsumerOptions, IProducerModel>();
 
-        private readonly List<string> _declaredExchanges = new List<string>();
-        private readonly List<string> _declaredQueues = new List<string>();
         public readonly ConnectionFactory Factory;
 
         /// <summary>
-        /// When true, will delete any created queues/exchanges when Dispose is called. Can set to false to inspect
-        /// queue messages before they are deleted.
-        /// 
+        /// When true, will delete the test vhost when Dispose is called. Can set to false to inspect all queues and messages before they are deleted.
         /// <para>Defaults to true</para>
         /// </summary>
         public bool CleanUpAfterTest { get; set; }
-
 
         /// <summary>
         /// Hosts to call Stop on in the Dispose step.  This ensures that all hosts are correctly shutdown even if Exceptions
@@ -40,6 +38,10 @@ namespace Smi.Common.Tests
         public MicroserviceTester(RabbitOptions rabbitOptions, params ConsumerOptions[] peopleYouWantToSendMessagesTo)
         {
             CleanUpAfterTest = true;
+
+            _hostName = rabbitOptions.RabbitMqHostName;
+            _testVhost = RabbitMqTestHelpers.CreateRandomVhost(rabbitOptions.RabbitMqHostName);
+            rabbitOptions.RabbitMqVirtualHost = _testVhost;
 
             _adapter = new RabbitMqAdapter(rabbitOptions.CreateConnectionFactory(), "TestHost");
 
@@ -55,8 +57,7 @@ namespace Smi.Common.Tests
             using (var con = Factory.CreateConnection())
             using (var model = con.CreateModel())
             {
-                //get rid of old exchanges
-                model.ExchangeDelete(rabbitOptions.RabbitMqControlExchangeName);
+             
                 //create a new one
                 model.ExchangeDeclare(rabbitOptions.RabbitMqControlExchangeName, ExchangeType.Topic, true);
 
@@ -67,18 +68,12 @@ namespace Smi.Common.Tests
                         consumer.QueueName = consumer.QueueName.Insert(0, "TEST.");
 
                     var exchangeName = consumer.QueueName.Replace("Queue", "Exchange");
-
-                    //terminate any old queues / exchanges
-                    model.ExchangeDelete(exchangeName);
-                    model.QueueDelete(consumer.QueueName);
-                    _declaredExchanges.Add(exchangeName);
-
+                                        
                     //Create a binding between the exchange and the queue
                     model.ExchangeDeclare(exchangeName, ExchangeType.Direct, true);//durable seems to be needed because RabbitMQAdapter wants it?
                     model.QueueDeclare(consumer.QueueName, true, false, false);//shared with other users
                     model.QueueBind(consumer.QueueName, exchangeName, "");
-                    _declaredQueues.Add(consumer.QueueName);
-
+                    
                     //Create a producer which can send to the 
                     var producerOptions = new ProducerOptions
                     {
@@ -151,11 +146,7 @@ namespace Smi.Common.Tests
             using (var model = con.CreateModel())
             {
                 //setup a sender channel for each of the consumers you want to test sending messages to
-
-                //terminate any old queues / exchanges
-                if (!isSecondaryBinding)
-                    model.ExchangeDelete(exchangeName);
-
+                                
                 model.QueueDelete(queueNameToUse);
 
                 //Create a binding between the exchange and the queue
@@ -209,14 +200,7 @@ namespace Smi.Common.Tests
             Shutdown();
 
             if (CleanUpAfterTest)
-            {
-                using (IConnection conn = Factory.CreateConnection())
-                using (IModel model = conn.CreateModel())
-                {
-                    _declaredExchanges.ForEach(x => model.ExchangeDelete(x));
-                    _declaredQueues.ForEach(x => model.QueueDelete(x));
-                }
-            }
+                RabbitMqTestHelpers.DeleteVhost(_hostName, _testVhost);
         }
     }
 }
