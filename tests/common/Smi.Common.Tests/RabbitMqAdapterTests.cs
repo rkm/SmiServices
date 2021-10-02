@@ -55,9 +55,10 @@ namespace Smi.Common.Tests
 
             _mockConsumer = Mock.Of<Consumer<IMessage>>();
 
-            _testAdapter = new RabbitMqAdapter(_testOptions.RabbitOptions.CreateConnectionFactory(), "RabbitMqAdapterTests");
-
             _tester = new MicroserviceTester(_testOptions.RabbitOptions, _testConsumerOptions);
+            _tester.CreateExchange(_testProducerOptions.ExchangeName);
+
+            _testAdapter = new RabbitMqAdapter(_testOptions.RabbitOptions.CreateConnectionFactory(), "RabbitMqAdapterTests");
         }
 
         [TearDown]
@@ -67,6 +68,7 @@ namespace Smi.Common.Tests
                 _testAdapter.Shutdown(RabbitMqAdapter.DefaultOperationTimeout);
 
             _tester.Shutdown();
+            _tester.Dispose();
         }
 
         /// <summary>
@@ -221,34 +223,27 @@ namespace Smi.Common.Tests
             target.Layout = "${message}";                                                              
                                                                                            
             NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Debug);          
-
-            var o = new GlobalOptionsFactory().Load(nameof(Test_Shutdown));
-
+                        
             var consumer = (IConsumer)Activator.CreateInstance(consumerType);
-
-            //connect to rabbit with a new consumer
-            using (var tester = new MicroserviceTester(o.RabbitOptions, new []{_testConsumerOptions}))
-            {
-                _testAdapter.StartConsumer(_testConsumerOptions, consumer, true);
+            _testAdapter.StartConsumer(_testConsumerOptions, consumer, true);
                 
-                //send a message to trigger consumer behaviour
-                tester.SendMessage(_testConsumerOptions,new TestMessage());
+            //send a message to trigger consumer behaviour
+            _tester.SendMessage(_testConsumerOptions,new TestMessage());
 
-                //give the message time to get picked up
-                Thread.Sleep(3000);
+            //give the message time to get picked up
+            Thread.Sleep(3000);
                 
-                //now attempt to shut down adapter
-                _testAdapter.Shutdown(RabbitMqAdapter.DefaultOperationTimeout);
+            //now attempt to shut down adapter
+            _testAdapter.Shutdown(RabbitMqAdapter.DefaultOperationTimeout);
 
-                string expectedErrorMessage = "nothing to see here";
+            string expectedErrorMessage = "nothing to see here";
 
-                if (consumer is SelfClosingConsumer)
-                    expectedErrorMessage = "exiting (channel is closed)";
-                if (consumer is DoNothingConsumer)
-                    expectedErrorMessage = "exiting (cancellation was requested)";
+            if (consumer is SelfClosingConsumer)
+                expectedErrorMessage = "exiting (channel is closed)";
+            if (consumer is DoNothingConsumer)
+                expectedErrorMessage = "exiting (cancellation was requested)";
 
-                Assert.IsTrue(target.Logs.Any(s=>s.Contains(expectedErrorMessage)),"Expected message was not found, messages were:" + string.Join(Environment.NewLine,target.Logs));
-            }
+            Assert.IsTrue(target.Logs.Any(s=>s.Contains(expectedErrorMessage)),"Expected message was not found, messages were:" + string.Join(Environment.NewLine,target.Logs));
         }
 
         [Test]
