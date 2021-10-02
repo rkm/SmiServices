@@ -28,6 +28,8 @@ namespace Microservices.IsIdentifiable.Tests.ServiceTests
         {
             var options = new GlobalOptionsFactory().Load(nameof(TestClassifierName_NoClassifier));
 
+            using var _ = new MicroserviceTester(options.RabbitOptions);
+
             options.IsIdentifiableOptions.ClassifierType = "";
             var ex = Assert.Throws<ArgumentException>(() => new IsIdentifiableHost(options, new IsIdentifiableServiceOptions()));
             StringAssert.Contains("No IClassifier has been set in options.  Enter a value for " + nameof(options.IsIdentifiableOptions.ClassifierType), ex.Message);
@@ -38,6 +40,8 @@ namespace Microservices.IsIdentifiable.Tests.ServiceTests
         {
             var options = new GlobalOptionsFactory().Load(nameof(TestClassifierName_NotRecognized));
             options.IsIdentifiableOptions.DataDirectory = TestContext.CurrentContext.WorkDirectory;
+
+            using var _ = new MicroserviceTester(options.RabbitOptions);
 
             options.IsIdentifiableOptions.ClassifierType = "HappyFunTimes";
             var ex = Assert.Throws<TypeLoadException>(() => new IsIdentifiableHost(options, new IsIdentifiableServiceOptions()));
@@ -99,7 +103,7 @@ namespace Microservices.IsIdentifiable.Tests.ServiceTests
             Path.Combine(TestContext.CurrentContext.TestDirectory, nameof(TestClassifierName_ValidClassifier), "f1.dcm");
             TestData.Create(testDcm);
 
-            using (var tester = new MicroserviceTester(options.RabbitOptions, options.IsIdentifiableOptions))
+            using (var tester = new MicroserviceTester(options.RabbitOptions, options.IsIdentifiableOptions, options.CohortPackagerOptions.VerificationStatusOptions))
             {
                 options.IsIdentifiableOptions.ClassifierType = typeof(TesseractStanfordDicomFileClassifier).FullName;
 
