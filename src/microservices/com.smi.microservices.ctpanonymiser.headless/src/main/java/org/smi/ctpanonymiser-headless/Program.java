@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 public class Program {
 
@@ -12,11 +11,11 @@ public class Program {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String input = br.readLine();
-        if(!input.startsWith("INIT"))
+        if (!input.startsWith("INIT"))
             throw new Exception("Did not receive INIT as first message");
-        
+
         String anonFilePath = input.substring(5);
-        
+
         File anonScriptFile = new File(anonFilePath);
         if (!anonScriptFile.exists()) {
             System.out.println("Could not find anonymisation script");
@@ -26,23 +25,22 @@ public class Program {
 
         System.out.println("READY");
 
-        while(true) {
+        while (true) {
             try {
 
                 input = br.readLine();
 
-                if(input.equals("EXIT"))
+                if (input.equals("EXIT"))
                     break;
 
-                if (input.startsWith("ANON"))
-                {
-                    String[] parts =  input.split("\\|");
+                if (input.startsWith("ANON")) {
+                    String[] parts = input.split("\\|");
                     String sourceFile = parts[1];
                     String destFile = parts[2];
-                    
+
                     if (sourceFile.equals("foo"))
                         System.out.println("ANON_OK " + destFile);
-                    else                        
+                    else
                         System.out.println("oh no!");
 
                     continue;
