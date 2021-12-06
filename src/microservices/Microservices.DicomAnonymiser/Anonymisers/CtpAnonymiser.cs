@@ -17,8 +17,6 @@ namespace Microservices.DicomAnonymiser.Anonymisers
     /// </summary>
     public class CtpAnonymiser : IDicomAnonymiser, IDisposable
     {
-        private const string ctpjarPath = "ctpanonymiser-headless.jar";
-
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         private readonly Process _ctpProc;
@@ -36,12 +34,15 @@ namespace Microservices.DicomAnonymiser.Anonymisers
 
             string javaPath = Path.Combine(javaHome, "bin", "java");
 
-            if (!File.Exists(ctpjarPath))
-                throw new Exception($"Could not find '{ctpjarPath}'");
+            if (string.IsNullOrWhiteSpace(options.CtpJarPath))
+                throw new Exception("CtpJarPath not set");
+
+            if (!File.Exists(options.CtpJarPath))
+                throw new Exception($"Could not find '{options.CtpJarPath}'");
 
             _ctpProc = new Process();
             _ctpProc.StartInfo.FileName = javaPath;
-            _ctpProc.StartInfo.Arguments = $"-jar {ctpjarPath}";
+            _ctpProc.StartInfo.Arguments = $"-jar {options.CtpJarPath}";
             _ctpProc.StartInfo.UseShellExecute = false;
             _ctpProc.StartInfo.ErrorDialog = false;
             _ctpProc.StartInfo.RedirectStandardInput = true;

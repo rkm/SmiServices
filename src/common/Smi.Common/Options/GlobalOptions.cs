@@ -643,7 +643,10 @@ namespace Smi.Common.Options
 
     public class CtpAnonymiserOptions
     {
+        public string CtpJarPath { get; set; }
         public string AnonScriptPath { get; set; }
+
+        // TODO(rkm 2021-12-06) Add checksum to anon script
 
         public override string ToString() => GlobalOptions.GenerateToString(this);
     }
