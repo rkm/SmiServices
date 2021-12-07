@@ -30,17 +30,17 @@ namespace Microservices.DicomAnonymiser
             IFileSystem fileSystem = null
         )
         {
-            _options = options;
+            _options = options ?? throw new ArgumentNullException(nameof(options));
+            _fileSystemRoot = fileSystemRoot ?? throw new ArgumentNullException(nameof(fileSystemRoot));
+            _extractRoot = extractRoot ?? throw new ArgumentNullException(nameof(extractRoot));
+            _anonymiser = anonymiser ?? throw new ArgumentNullException(nameof(anonymiser));
+            _statusMessageProducer = statusMessageProducer ?? throw new ArgumentNullException(nameof(statusMessageProducer));
             _fileSystem = fileSystem ?? new FileSystem();
-            _fileSystemRoot = fileSystemRoot;
-            _extractRoot = extractRoot;
-            _anonymiser = anonymiser;
-            _statusMessageProducer = statusMessageProducer;
 
-            if (!_fileSystem.Directory.Exists(fileSystemRoot))
+            if (!_fileSystem.Directory.Exists(_fileSystemRoot))
                 throw new Exception($"Filesystem root does not exist: '{fileSystemRoot}'");
 
-            if (!_fileSystem.Directory.Exists(extractRoot))
+            if (!_fileSystem.Directory.Exists(_extractRoot))
                 throw new Exception($"Extract root does not exist: '{extractRoot}'");
         }
 
@@ -55,20 +55,20 @@ namespace Microservices.DicomAnonymiser
 
             if (!sourceFileAbs.Exists)
             {
-                statusMessage.StatusMessage = $"Could not find file to anonymise ('{message.DicomFilePath}')";
-                statusMessage.OutputFilePath = "";
                 statusMessage.Status = ExtractedFileStatus.FileMissing;
+                statusMessage.StatusMessage = $"Could not find file to anonymise: '{sourceFileAbs}'";
+                statusMessage.OutputFilePath = null;
 
                 _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
                 Ack(header, tag);
                 return;
             }
 
-            if (_options.FailIfSourceWriteable && sourceFileAbs.Attributes.HasFlag(FileAttributes.ReadOnly))
+            if (_options.FailIfSourceWriteable && !sourceFileAbs.Attributes.HasFlag(FileAttributes.ReadOnly))
             {
-                statusMessage.StatusMessage = $"Source file was writeable and FailIfSourceWriteable is set ('{message.DicomFilePath}')";
-                statusMessage.OutputFilePath = "";
                 statusMessage.Status = ExtractedFileStatus.ErrorWontRetry;
+                statusMessage.StatusMessage = $"Source file was writeable and FailIfSourceWriteable is set: '{sourceFileAbs}'";
+                statusMessage.OutputFilePath = null;
 
                 _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
                 Ack(header, tag);
@@ -92,27 +92,31 @@ namespace Microservices.DicomAnonymiser
 
             try
             {
-                _anonymiser.Anonymise(sourceFileAbs, destFileAbs);
-                _logger.Debug($"Anonymisation of '{sourceFileAbs}' successful");
-
-                statusMessage.StatusMessage = "";
-                statusMessage.OutputFilePath = message.OutputPath;
-                statusMessage.Status = ExtractedFileStatus.Anonymised;
-                routingKey = _options.RoutingKeySuccess;
+                _anonymiser.Anonymise(sourceFileAbs, destFileAbs);                
             }
             catch (Exception e)
             {
                 _logger.Error(e, $"Error anonymising '{sourceFileAbs}'");
 
                 statusMessage.StatusMessage = e.Message;
-                statusMessage.OutputFilePath = "";
                 statusMessage.Status = ExtractedFileStatus.ErrorWontRetry;
+                statusMessage.OutputFilePath = null;
                 routingKey = _options.RoutingKeyFailure;
+                _statusMessageProducer.SendMessage(statusMessage, header, routingKey);
+
+                Ack(header, tag);
+                return;
             }
 
+            _logger.Debug($"Anonymisation of '{sourceFileAbs}' successful");
+
+            statusMessage.OutputFilePath = message.OutputPath;
+            statusMessage.Status = ExtractedFileStatus.Anonymised;
+            routingKey = _options.RoutingKeySuccess;
             _statusMessageProducer.SendMessage(statusMessage, header, routingKey);
 
             Ack(header, tag);
+            return;
         }
     }
 }
