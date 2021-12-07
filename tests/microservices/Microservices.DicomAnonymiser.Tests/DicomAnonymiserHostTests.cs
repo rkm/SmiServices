@@ -120,7 +120,6 @@ namespace Microservices.DicomAnonymiser.Tests
 
                 var statusMessage = statusMessages.Single();
                 Assert.AreEqual(ExtractedFileStatus.Anonymised, statusMessage.Status, statusMessage.StatusMessage);
-                // assert other properties
             }
         }
 
