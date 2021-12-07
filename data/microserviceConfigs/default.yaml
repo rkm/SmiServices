@@ -192,7 +192,7 @@ CTPAnonymiserOptions:
         MaxConfirmAttempts: 1
 
 DicomAnonymiserOptions:
-    AnonymiserType: CTP
+    AnonymiserType:
     AnonFileConsumerOptions:
         QueueName: 'TEST.ExtractFileAnonQueue'
         QoSPrefetchCount: 1
@@ -203,8 +203,6 @@ DicomAnonymiserOptions:
     RoutingKeySuccess: verify
     RoutingKeyFailure: noverify
     FailIfSourceWriteable: true
-    CtpAnonymiserOptions:
-        AnonScriptPath: ""
 
 FileCopierOptions:
     NoVerifyRoutingKey: noverify
