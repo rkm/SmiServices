@@ -94,9 +94,10 @@ namespace Microservices.DicomAnonymiser
             }
             catch (Exception e)
             {
-                _logger.Error(e, $"Error anonymising '{sourceFileAbs}'");
+                var msg = $"Error anonymising '{sourceFileAbs}'";
+                _logger.Error(e, msg);
 
-                statusMessage.StatusMessage = e.Message;
+                statusMessage.StatusMessage = $"{msg}. Exception message: {e.Message}";
                 statusMessage.Status = ExtractedFileStatus.ErrorWontRetry;
                 statusMessage.OutputFilePath = null;
                 _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
