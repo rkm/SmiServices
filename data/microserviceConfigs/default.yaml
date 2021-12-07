@@ -180,6 +180,17 @@ ProcessDirectoryOptions:
         ExchangeName: 'TEST.AccessionDirectoryExchange'
         MaxConfirmAttempts: 1
 
+CTPAnonymiserOptions:
+    VerifyRoutingKey: verify
+    NoVerifyRoutingKey: noverify
+    AnonFileConsumerOptions:
+        QueueName: 'TEST.ExtractFileAnonQueue'
+        QoSPrefetchCount: 1
+        AutoAck: false
+    ExtractFileStatusProducerOptions:
+        ExchangeName: 'TEST.ExtractedFileStatusExchange'
+        MaxConfirmAttempts: 1
+
 DicomAnonymiserOptions:
     AnonymiserType: CTP
     AnonFileConsumerOptions:
