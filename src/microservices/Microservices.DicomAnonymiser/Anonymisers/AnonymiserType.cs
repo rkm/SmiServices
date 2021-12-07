@@ -6,7 +6,5 @@
         /// Unused placeholder value
         /// </summary>
         None = 0,
-
-        CTP,
     }
 }

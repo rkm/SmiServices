@@ -636,17 +636,7 @@ namespace Smi.Common.Options
         public string RoutingKeySuccess { get; set; }
         public string RoutingKeyFailure { get; set; }
         public bool FailIfSourceWriteable { get; set; } = true;
-        public CtpAnonymiserOptions CtpAnonymiserOptions { get; set; }
-
-        public override string ToString() => GlobalOptions.GenerateToString(this);
-    }
-
-    public class CtpAnonymiserOptions
-    {
-        public string CtpJarPath { get; set; }
-        public string AnonScriptPath { get; set; }
-
-        // TODO(rkm 2021-12-06) Add checksum to anon script
+        
 
         public override string ToString() => GlobalOptions.GenerateToString(this);
     }
