@@ -58,8 +58,8 @@ namespace Microservices.DicomAnonymiser
                 statusMessage.Status = ExtractedFileStatus.FileMissing;
                 statusMessage.StatusMessage = $"Could not find file to anonymise: '{sourceFileAbs}'";
                 statusMessage.OutputFilePath = null;
-
                 _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
+
                 Ack(header, tag);
                 return;
             }
@@ -69,8 +69,8 @@ namespace Microservices.DicomAnonymiser
                 statusMessage.Status = ExtractedFileStatus.ErrorWontRetry;
                 statusMessage.StatusMessage = $"Source file was writeable and FailIfSourceWriteable is set: '{sourceFileAbs}'";
                 statusMessage.OutputFilePath = null;
-
                 _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
+
                 Ack(header, tag);
                 return;
             }
@@ -86,8 +86,6 @@ namespace Microservices.DicomAnonymiser
 
             destFileAbs.Directory.Create();
 
-            string routingKey;
-
             _logger.Debug($"Anonymising '{sourceFileAbs}' to '{destFileAbs}'");
 
             try
@@ -101,8 +99,7 @@ namespace Microservices.DicomAnonymiser
                 statusMessage.StatusMessage = e.Message;
                 statusMessage.Status = ExtractedFileStatus.ErrorWontRetry;
                 statusMessage.OutputFilePath = null;
-                routingKey = _options.RoutingKeyFailure;
-                _statusMessageProducer.SendMessage(statusMessage, header, routingKey);
+                _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
 
                 Ack(header, tag);
                 return;
@@ -110,10 +107,8 @@ namespace Microservices.DicomAnonymiser
 
             _logger.Debug($"Anonymisation of '{sourceFileAbs}' successful");
 
-            statusMessage.OutputFilePath = message.OutputPath;
             statusMessage.Status = ExtractedFileStatus.Anonymised;
-            routingKey = _options.RoutingKeySuccess;
-            _statusMessageProducer.SendMessage(statusMessage, header, routingKey);
+            _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeySuccess);
 
             Ack(header, tag);
             return;
