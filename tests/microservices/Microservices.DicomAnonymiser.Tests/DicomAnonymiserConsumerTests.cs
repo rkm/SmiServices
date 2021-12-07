@@ -149,9 +149,6 @@ namespace Microservices.DicomAnonymiser.Tests
             var testDeliverArgs = ConsumerTestHelpers.GetMockDeliverArgs(_extractFileMessage);
             consumer.SetModel(_mockModel.Object);
 
-            var fatalCalled = false;
-            consumer.OnFatal += (sender, _) => fatalCalled = true;
-
             consumer.ProcessMessage(testDeliverArgs);
 
             new TestTimelineAwaiter().Await(() => consumer.AckCount == 1 && consumer.NackCount == 0, "", 5_000);
