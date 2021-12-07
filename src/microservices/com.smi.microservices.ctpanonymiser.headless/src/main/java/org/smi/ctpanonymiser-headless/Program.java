@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,22 +7,20 @@ public class Program {
 
     public static void main(String[] args) throws Exception, IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        String input = br.readLine();
-        if (!input.startsWith("INIT"))
-            throw new Exception("Did not receive INIT as first message");
-
-        String anonFilePath = input.substring(5);
-
+        String anonFilePath = args[0];
         File anonScriptFile = new File(anonFilePath);
+
         if (!anonScriptFile.exists()) {
-            System.out.println("Could not find anonymisation script");
-            System.out.println("BYE");
+            System.out.println("Could not find anonymisation script. BYE");
             return;
         }
 
-        System.out.println("READY");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String input = br.readLine();
+        if (!input.startsWith("PING"))
+            throw new Exception("Did not receive PING as first message");
+        System.out.println("PONG");
 
         while (true) {
             try {

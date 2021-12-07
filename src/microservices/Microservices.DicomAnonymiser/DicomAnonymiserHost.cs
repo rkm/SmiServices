@@ -13,11 +13,12 @@ namespace Microservices.DicomAnonymiser
 
         public DicomAnonymiserHost(
             GlobalOptions options,
+            IDicomAnonymiser anonymiser = null,
             IFileSystem fileSystem = null
         )
             : base(options)
         {
-            _anonymiser = AnonymiserFactory.CreateAnonymiser(Globals.DicomAnonymiserOptions);
+            _anonymiser = anonymiser ?? AnonymiserFactory.CreateAnonymiser(Globals.DicomAnonymiserOptions);
 
             var producerModel = RabbitMqAdapter.SetupProducer(options.DicomAnonymiserOptions.ExtractFileStatusProducerOptions, isBatch: false);
 

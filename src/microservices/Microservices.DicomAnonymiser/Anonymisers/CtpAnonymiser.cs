@@ -42,7 +42,7 @@ namespace Microservices.DicomAnonymiser.Anonymisers
 
             _ctpProc = new Process();
             _ctpProc.StartInfo.FileName = javaPath;
-            _ctpProc.StartInfo.Arguments = $"-jar {options.CtpJarPath}";
+            _ctpProc.StartInfo.Arguments = $"-jar {options.CtpJarPath} {options.AnonScriptPath}";
             _ctpProc.StartInfo.UseShellExecute = false;
             _ctpProc.StartInfo.ErrorDialog = false;
             _ctpProc.StartInfo.RedirectStandardInput = true;
@@ -54,13 +54,12 @@ namespace Microservices.DicomAnonymiser.Anonymisers
             {
                 _logger.Debug("Starting CTP process");
                 _ctpProc.Start();
-                _ctpProc.StandardInput.AutoFlush = true;
                 _ctpProc.BeginErrorReadLine();
 
-                var resp = SendReceive($"INIT|{options.AnonScriptPath}");
+                var resp = SendCommandSync("PING");
 
-                if (resp != "READY")
-                    throw new Exception($"Unexpected response '{resp}'");
+                if (resp != "PONG")
+                    throw new Exception($"Unexpected response from ctp (exited={_ctpProc.HasExited}): {resp}");
             }
             catch (Exception e)
             {
@@ -68,24 +67,15 @@ namespace Microservices.DicomAnonymiser.Anonymisers
                 Dispose();
                 throw;
             }
-
-            var fs = new FileSystem();
-            var anonStatus = Anonymise(fs.FileInfo.FromFileName("foo"), fs.FileInfo.FromFileName("bar"));
-            _logger.Debug($"Resp 1: {anonStatus}");
-
-            anonStatus = Anonymise(fs.FileInfo.FromFileName("missing"), fs.FileInfo.FromFileName("bar"));
-            _logger.Debug($"Resp 2: {anonStatus}");
-
-            throw new Exception($"eeeee");
         }
 
-        private string SendReceive(string request)
+        private string SendCommandSync(string request)
         {
-            // TODO(rkm 2021-07-08) Check how badly this handles the CTP process disappearing
-            _logger.Debug($"-> {request}");
+            _logger.Trace($"-> {request}");
             _ctpProc.StandardInput.WriteLine(request);
+            _ctpProc.StandardInput.Flush();
             var response = _ctpProc.StandardOutput.ReadLine();
-            _logger.Debug($"<- {response}");
+            _logger.Trace($"<- {response}");
             return response;
         }
 
@@ -101,8 +91,7 @@ namespace Microservices.DicomAnonymiser.Anonymisers
 
         public ExtractedFileStatus Anonymise(IFileInfo sourceFile, IFileInfo destFile)
         {
-            _logger.Debug($"Anonymising '{sourceFile}' -> '{destFile}'");
-            var resp = SendReceive($"ANON|{sourceFile}|{destFile}");
+            var resp = SendCommandSync($"ANON|{sourceFile}|{destFile}");
 
             if (!resp.Equals($"ANON_OK {destFile}"))
             {
@@ -122,7 +111,7 @@ namespace Microservices.DicomAnonymiser.Anonymisers
 
             try
             {
-                var resp = SendReceive("EXIT");
+                var resp = SendCommandSync("EXIT");
                 if (resp != "BYE")
                     _logger.Error("Did not recieve BYE from CTP process");
 

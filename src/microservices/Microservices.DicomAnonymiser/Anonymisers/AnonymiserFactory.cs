@@ -14,7 +14,7 @@ namespace Microservices.DicomAnonymiser.Anonymisers
             return anonymiserType switch
             {
                 AnonymiserType.CTP => new CtpAnonymiser(dicomAnonymiserOptions.CtpAnonymiserOptions),
-                _ => throw new Exception($"No case for {anonymiserType}"),
+                _ => throw new NotImplementedException($"No case for AnonymiserType '{anonymiserType}'"),
             };
         }
     }

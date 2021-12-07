@@ -38,22 +38,22 @@ namespace Microservices.DicomAnonymiser
             _statusMessageProducer = statusMessageProducer;
 
             if (!_fileSystem.Directory.Exists(fileSystemRoot))
-                throw new Exception($"Filesystem root does not exist ('{fileSystemRoot}')");
+                throw new Exception($"Filesystem root does not exist: '{fileSystemRoot}'");
 
             if (!_fileSystem.Directory.Exists(extractRoot))
-                throw new Exception($"Extract root does not exist ('{extractRoot}')");
+                throw new Exception($"Extract root does not exist: '{extractRoot}'");
         }
 
         protected override void ProcessMessageImpl(IMessageHeader header, ExtractFileMessage message, ulong tag)
         {
             if (message.IsIdentifiableExtraction)
-                throw new Exception("Received a message with IsIdentifiableExtraction set");
+                throw new Exception("DicomAnonymiserConsumer should not handle identifiable extraction messages");
 
             var statusMessage = new ExtractedFileStatusMessage(message);
 
-            var sourceFile = _fileSystem.FileInfo.FromFileName(_fileSystem.Path.Combine(_fileSystemRoot, message.DicomFilePath));
+            var sourceFileAbs = _fileSystem.FileInfo.FromFileName(_fileSystem.Path.Combine(_fileSystemRoot, message.DicomFilePath));
 
-            if (!sourceFile.Exists)
+            if (!sourceFileAbs.Exists)
             {
                 statusMessage.StatusMessage = $"Could not find file to anonymise ('{message.DicomFilePath}')";
                 statusMessage.OutputFilePath = "";
@@ -64,26 +64,36 @@ namespace Microservices.DicomAnonymiser
                 return;
             }
 
-            var destFile = _fileSystem.FileInfo.FromFileName(_fileSystem.Path.Combine(_extractRoot, message.ExtractionDirectory, message.OutputPath));
-
-            if (!destFile.Directory.Exists)
+            if (_options.FailIfSourceWriteable && sourceFileAbs.Attributes.HasFlag(FileAttributes.ReadOnly))
             {
-                _logger.Debug($"Creating output directory '{destFile.Directory}'");
-                destFile.Directory.Create();
+                statusMessage.StatusMessage = $"Source file was writeable and FailIfSourceWriteable is set ('{message.DicomFilePath}')";
+                statusMessage.OutputFilePath = "";
+                statusMessage.Status = ExtractedFileStatus.ErrorWontRetry;
+
+                _statusMessageProducer.SendMessage(statusMessage, header, _options.RoutingKeyFailure);
+                Ack(header, tag);
+                return;
             }
 
-            if (_options.FailIfSourceWriteable)
-            {
-                using var fs = _fileSystem.FileStream.Create(sourceFile.FullName, FileMode.OpenOrCreate, FileAccess.Write);
-                if (fs.CanWrite)
-                    throw new Exception($"Source file was writeable and FailIfSourceWriteable is set ('{message.DicomFilePath}')");
-            }
+            var extractionDirAbs = _fileSystem.Path.Combine(_extractRoot, message.ExtractionDirectory);
+
+            // NOTE(rkm 2021-12-07) Since this direcotry shold have already been created, we treat this more like an assertion and throw if not found.
+            // This helps prevent a flood of messages if e.g. the filesystem is temporarily unavialable
+            if (!_fileSystem.Directory.Exists(extractionDirAbs))
+                throw new DirectoryNotFoundException($"Expected extraction directory to exist: '{extractionDirAbs}'");
+
+            var destFileAbs = _fileSystem.FileInfo.FromFileName(_fileSystem.Path.Combine(extractionDirAbs, message.OutputPath));
+
+            destFileAbs.Directory.Create();
 
             string routingKey;
 
+            _logger.Debug($"Anonymising '{sourceFileAbs}' to '{destFileAbs}'");
+
             try
             {
-                _anonymiser.Anonymise(sourceFile, destFile);
+                _anonymiser.Anonymise(sourceFileAbs, destFileAbs);
+                _logger.Debug($"Anonymisation of '{sourceFileAbs}' successful");
 
                 statusMessage.StatusMessage = "";
                 statusMessage.OutputFilePath = message.OutputPath;
@@ -92,7 +102,7 @@ namespace Microservices.DicomAnonymiser
             }
             catch (Exception e)
             {
-                _logger.Error(e, $"Error anonymising '{sourceFile}'");
+                _logger.Error(e, $"Error anonymising '{sourceFileAbs}'");
 
                 statusMessage.StatusMessage = e.Message;
                 statusMessage.OutputFilePath = "";
