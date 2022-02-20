@@ -17,7 +17,6 @@ jobs:
         os:
         - ubuntu-20.04
         - windows-2022
-    runs_on: ${{ matrix.os }}
     steps:
     - uses: ./.github/jobs/tests.yml
 
