@@ -7,6 +7,10 @@ on:
   pull_request:
   # testing
   workflow_dispatch:
+  
+defaults:
+  run:
+    shell: bash
 
 jobs:
   linux_tests:
