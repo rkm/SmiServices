@@ -43,8 +43,7 @@ jobs:
     - name: symlink tessdata
       run: |
         set -euxo pipefail
-        pwd
-        ls -l
-        ln -s \
+        cp \
             "${{ env.tessdata_path }}/eng.traineddata" \
             "./data/tessdata/eng.traineddata"
+        ls -l ./data/tessdata/
