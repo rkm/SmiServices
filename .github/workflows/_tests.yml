@@ -7,8 +7,30 @@ on:
         required: true
         type: string
 
+env:
+  tessdata_version: "4.1.0"
+  tessdata_path: "~/cache/tessdata"
+
 jobs:
   dotnet:
     runs-on: ${{ inputs.os }}
     steps:
-    - run: echo test
+    - name: Setup .NET
+      # NOTE(rkm 2022-02-20) Uses global.json
+      uses: actions/setup-dotnet@v1
+    - name: Cache tessdata
+      id: cache-tessdata
+      uses: actions/cache@v2.1.7
+      with:
+        path: ${{ env.tessdata_path }}
+        key: 'tessdata|${{ env.tessdata_version }}'
+    - name: Download tessdata
+      if: steps.cache-tessdata.outputs.cache-hit != 'true'
+      run: |
+        set -euxo pipefail
+        mkdir -p "${{ env.tessdata_path }}"
+        curl \
+            --location --silent \
+            https://github.com/tesseract-ocr/tessdata/raw/${{ env.tessdata_version }}/eng.traineddata \
+            > "${{ env.tessdata_path }}/eng.traineddata"
+        ls -l "${{ env.tessdata_path }}"
