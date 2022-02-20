@@ -17,5 +17,5 @@ jobs:
         - windows-2022
     runs_on: ${{ matrix.os }}
     steps:
-    - uses: .github/jobs/tests.yml
+    - uses: ./.github/jobs/tests.yml
 
