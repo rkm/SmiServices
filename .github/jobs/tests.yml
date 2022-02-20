@@ -2,9 +2,14 @@
 
 on:
   workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
 
 jobs:
   dotnet:
+    runs_on: ${{ inputs.os }}
     steps:
     - run: echo test
 
