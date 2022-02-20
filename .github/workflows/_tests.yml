@@ -44,6 +44,7 @@ jobs:
       run: |
         set -euxo pipefail
         pwd
+        ls -l
         ln -s \
             "${{ env.tessdata_path }}/eng.traineddata" \
-            ./data/tessdata/eng.traineddata
+            "./data/tessdata/eng.traineddata"
