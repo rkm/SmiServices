@@ -9,14 +9,16 @@ on:
   pull_request:
   # testing
   workflow_dispatch:
+  
 
 jobs:
   linux_tests:
     uses: ./.github/workflows/tests.yml
     with:
       os: ubuntu-20.04
-  win_tests:
-    uses: ./.github/workflows/tests.yml
-    with:
-      os: windows-2022
+#   win_tests:
+#     uses: ./.github/workflows/tests.yml
+#     with:
+#       os: windows-2022
+  
 
