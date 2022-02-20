@@ -11,13 +11,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        os:
-        - ubuntu-20.04
-        - windows-2022
-    runs_on: ${{ matrix.os }}
-    steps:
-    - uses: ./.github/jobs/tests.yml
+  linux_tests:
+    uses: ./.github/workflows/tests.yml
+    with:
+      os: ubuntu-20.04
+  win_tests:
+    uses: ./.github/workflows/tests.yml
+    with:
+      os: windows-2022
 
