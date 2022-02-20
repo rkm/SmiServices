@@ -9,7 +9,6 @@ on:
 
 jobs:
   dotnet:
-    runs-on: ubuntu-latest
-#     runs-on: ${{ inputs.os }}
+    runs-on: ${{ inputs.os }}
     steps:
     - run: echo test
