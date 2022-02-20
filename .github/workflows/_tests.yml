@@ -15,7 +15,9 @@ jobs:
   dotnet:
     runs-on: ${{ inputs.os }}
     steps:
-    - name: Setup .NET
+    - name: checkout
+      uses: actions/checkout@v2.4.0
+    - name: setup .NET
       # NOTE(rkm 2022-02-20) Uses global.json
       uses: actions/setup-dotnet@v1
     - name: Cache tessdata
@@ -24,7 +26,7 @@ jobs:
       with:
         path: ${{ env.tessdata_path }}
         key: 'tessdata|${{ env.tessdata_version }}'
-    - name: Download tessdata
+    - name: download tessdata
       if: steps.cache-tessdata.outputs.cache-hit != 'true'
       run: |
         set -euxo pipefail
@@ -34,3 +36,9 @@ jobs:
             https://github.com/tesseract-ocr/tessdata/raw/${{ env.tessdata_version }}/eng.traineddata \
             > "${{ env.tessdata_path }}/eng.traineddata"
         ls -l "${{ env.tessdata_path }}"
+    - name: symlink tessdata
+      run: |
+        set -euxo pipefail
+        ln -s \
+            "${{ env.tessdata_path }}/eng.traineddata" \
+            "${{ env.GITHUB_WORKSPACE }}/data/tessdata/eng.traineddata"
