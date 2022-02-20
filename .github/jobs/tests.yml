@@ -1,0 +1,10 @@
+---
+
+on:
+  workflow_call:
+
+jobs:
+  dotnet:
+    steps:
+    - run: echo test
+
