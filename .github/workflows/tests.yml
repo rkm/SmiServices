@@ -9,7 +9,6 @@ on:
 
 jobs:
   dotnet:
-    runs_on: ${{ inputs.os }}
+    runs-on: ${{ inputs.os }}
     steps:
     - run: echo test
-
