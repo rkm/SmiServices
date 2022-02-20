@@ -10,10 +10,10 @@ on:
 
 jobs:
   linux_tests:
-    uses: ./.github/workflows/tests.yml
+    uses: ./.github/workflows/_tests.yml
     with:
       os: ubuntu-20.04
   win_tests:
-    uses: ./.github/workflows/tests.yml
+    uses: ./.github/workflows/_tests.yml
     with:
       os: windows-2022
