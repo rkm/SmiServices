@@ -26,6 +26,7 @@ jobs:
         key: 'tessdata|${{ env.tessdata_version }}'
     - name: Download tessdata
       if: steps.cache-tessdata.outputs.cache-hit != 'true'
+      shell: bash
       run: |
         set -euxo pipefail
         mkdir -p "${{ env.tessdata_path }}"
