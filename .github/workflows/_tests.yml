@@ -7,6 +7,10 @@ on:
         required: true
         type: string
 
+defaults:
+  run:
+    shell: bash
+
 env:
   tessdata_version: "4.1.0"
   tessdata_path: "~/cache/tessdata"
