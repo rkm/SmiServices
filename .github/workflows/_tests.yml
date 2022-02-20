@@ -24,14 +24,14 @@ jobs:
     - name: setup .NET
       # NOTE(rkm 2022-02-20) Uses global.json
       uses: actions/setup-dotnet@v1
-    - name: Cache tessdata
+    - name: cache tessdata
       id: cache-tessdata
       uses: actions/cache@v2.1.7
       with:
         path: ${{ env.tessdata_path }}
         key: 'tessdata|${{ env.tessdata_version }}'
     - name: download tessdata
-      if: steps.cache-tessdata.outputs.cache-hit != 'true'
+#       if: steps.cache-tessdata.outputs.cache-hit != 'true'
       run: |
         set -euxo pipefail
         mkdir -p "${{ env.tessdata_path }}"
