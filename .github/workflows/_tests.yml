@@ -45,4 +45,4 @@ jobs:
         set -euxo pipefail
         ln -s \
             "${{ env.tessdata_path }}/eng.traineddata" \
-            "${{ env.GITHUB_WORKSPACE }}/data/tessdata/eng.traineddata"
+            "${{ github.workspace }}/data/tessdata/eng.traineddata"
