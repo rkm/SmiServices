@@ -24,14 +24,12 @@ jobs:
     - name: setup .NET
       # NOTE(rkm 2022-02-20) Uses global.json
       uses: actions/setup-dotnet@v1
-    - name: debug
-      run: mkdir -p ~/cache/
     - name: cache tessdata
       id: cache-tessdata
       uses: actions/cache@v2.1.7
       with:
         path: ${{ env.tessdata_path }}
-        key: 'tessdata|${{ env.tessdata_version }}|v2'
+        key: 'tessdata|${{ env.tessdata_version }}|v3'
     - name: download tessdata
       if: steps.cache-tessdata.outputs.cache-hit != 'true'
       run: |
@@ -40,7 +38,10 @@ jobs:
         curl \
             --location --silent \
             https://github.com/tesseract-ocr/tessdata/raw/${{ env.tessdata_version }}/eng.traineddata \
-            > "${{ env.tessdata_path }}/eng.traineddata"
+            --output "${{ env.tessdata_path }}/eng.traineddata"
+        ls -l ~
+        ls -l ~/cache
+        ls -l ~/cache/tessdata
         ls -l "${{ env.tessdata_path }}"
     - name: symlink tessdata
       run: |
