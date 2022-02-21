@@ -29,7 +29,7 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ${{ env.tessdata_path }}
-        key: 'tessdata|${{ env.tessdata_version }}'
+        key: 'tessdata|${{ env.tessdata_version }}|v1'
     - name: download tessdata
 #       if: steps.cache-tessdata.outputs.cache-hit != 'true'
       run: |
