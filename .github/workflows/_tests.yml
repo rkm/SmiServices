@@ -25,15 +25,15 @@ jobs:
       # NOTE(rkm 2022-02-20) Uses global.json
       uses: actions/setup-dotnet@v1
     - name: debug
-      run: ls -l ~ && ls -l ~/cache
+      run: mkdir -p ~/cache/
     - name: cache tessdata
       id: cache-tessdata
       uses: actions/cache@v2.1.7
       with:
         path: ${{ env.tessdata_path }}
-        key: 'tessdata|${{ env.tessdata_version }}|v1'
+        key: 'tessdata|${{ env.tessdata_version }}|v2'
     - name: download tessdata
-#       if: steps.cache-tessdata.outputs.cache-hit != 'true'
+      if: steps.cache-tessdata.outputs.cache-hit != 'true'
       run: |
         set -euxo pipefail
         mkdir -p "${{ env.tessdata_path }}"
@@ -50,4 +50,4 @@ jobs:
             "./data/tessdata/eng.traineddata"
         ls -l ./data/tessdata/
     - name: debug
-      run: ls -l ~ && ls -l ~/cache
+      run: ls -l ~/cache
