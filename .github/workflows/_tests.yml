@@ -13,7 +13,7 @@ defaults:
 
 env:
   tessdata_version: "4.1.0"
-  tessdata_path: "~/cache/tessdata"
+  tessdata_path: ".cache/tessdata"
 
 jobs:
   dotnet:
@@ -29,7 +29,7 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ${{ env.tessdata_path }}
-        key: 'tessdata|${{ env.tessdata_version }}|v3'
+        key: 'tessdata|${{ env.tessdata_version }}|v4'
     - name: download tessdata
       if: steps.cache-tessdata.outputs.cache-hit != 'true'
       run: |
