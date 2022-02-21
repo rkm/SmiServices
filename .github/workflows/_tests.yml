@@ -47,5 +47,3 @@ jobs:
             "${{ env.tessdata_path }}/eng.traineddata" \
             "./data/tessdata/eng.traineddata"
         ls -l ./data/tessdata/
-    - name: debug
-      run: ls -l ~/cache
