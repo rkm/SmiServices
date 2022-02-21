@@ -39,11 +39,7 @@ jobs:
             --location --silent \
             https://github.com/tesseract-ocr/tessdata/raw/${{ env.tessdata_version }}/eng.traineddata \
             --output "${{ env.tessdata_path }}/eng.traineddata"
-        ls -l
-        ls -l ~
-        ls -l ~/cache
-        ls -l ~/cache/tessdata
-        ls -l "${{ env.tessdata_path }}"
+        ls -la
     - name: symlink tessdata
       run: |
         set -euxo pipefail
