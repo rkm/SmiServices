@@ -24,6 +24,8 @@ jobs:
     - name: setup .NET
       # NOTE(rkm 2022-02-20) Uses global.json
       uses: actions/setup-dotnet@v1
+    - name: debug
+      run: ls -l ~ && ls -l ~/cache
     - name: cache tessdata
       id: cache-tessdata
       uses: actions/cache@v2.1.7
@@ -47,3 +49,5 @@ jobs:
             "${{ env.tessdata_path }}/eng.traineddata" \
             "./data/tessdata/eng.traineddata"
         ls -l ./data/tessdata/
+    - name: debug
+      run: ls -l ~ && ls -l ~/cache
