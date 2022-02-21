@@ -39,3 +39,5 @@ jobs:
             --location --silent \
             https://github.com/tesseract-ocr/tessdata/raw/${{ env.tessdata_version }}/eng.traineddata \
             --output "${{ env.tessdata_path }}/eng.traineddata"
+    - name: debug
+      run: ls -l data/tessdata
