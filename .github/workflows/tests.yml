@@ -1,6 +1,6 @@
 ---
 
-name: main
+name: tests
 
 on:
   push:
@@ -14,11 +14,11 @@ defaults:
     shell: bash
 
 jobs:
-  linux_tests:
+  linux:
     uses: ./.github/workflows/_tests.yml
     with:
       os: ubuntu-20.04
-  win_tests:
+  win:
     uses: ./.github/workflows/_tests.yml
     with:
       os: windows-2022
