@@ -46,6 +46,18 @@ jobs:
       if: ${{ inputs.os == 'linux' }}
       run: |
         set -euxo pipefail
+
+        docker run \
+            --rm \
+            -v`pwd`/utils/docker-compose:/run \
+            --user $(id -u):$(id -g) \
+            safewaters/docker-lock \
+                lock rewrite \
+                --lockfile-name linux-dotnet.yml.lock
+
+        cat ./utils/docker-compose-linux-dotnet.yml
+
         docker-compose -f ./utils/docker-compose/linux-dotnet.yml up -d
-        ./utils/wait-for.bash 'docker exec rabbitmq rabbitmq-diagnostics -q ping'
+
         # TODO the rest
+        ./utils/wait-for.bash 'docker exec rabbitmq rabbitmq-diagnostics -q ping'
