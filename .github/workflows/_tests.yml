@@ -58,8 +58,7 @@ jobs:
 
         cat ./utils/docker-compose/linux-dotnet.yml
 
-        # debug
-        docker-compose -f ./utils/docker-compose/linux-dotnet.yml up mariadb
+        docker-compose -f ./utils/docker-compose/linux-dotnet.yml up -d
 
         ./utils/wait-for.bash "docker exec rabbitmq rabbitmq-diagnostics -q ping"
         ./utils/wait-for.bash "docker exec mariadb mysqladmin -uroot -p${{ env.db_password }} status"
