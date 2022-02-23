@@ -46,6 +46,6 @@ jobs:
       if: ${{ inputs.os == 'linux' }}
       run: |
         set -euxo pipefail
-        docker-compose -f ./utils/docker-compose/linux-dotnet.yml up
+        docker-compose -f ./utils/docker-compose/linux-dotnet.yml up -d
         ./utils/wait-for.bash 'docker exec rabbitmq rabbitmq-diagnostics -q ping'
         # TODO the rest
