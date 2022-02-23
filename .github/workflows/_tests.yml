@@ -17,6 +17,7 @@ defaults:
 env:
   tessdata_version: "4.1.0"
   tessdata_path: "./data/tessdata"
+  db_password: "YourStrongPassw0rd"
 
 jobs:
   dotnet:
@@ -59,5 +60,9 @@ jobs:
 
         docker-compose -f ./utils/docker-compose/linux-dotnet.yml up -d
 
-        # TODO the rest
-        ./utils/wait-for.bash 'docker exec rabbitmq rabbitmq-diagnostics -q ping'
+        ./utils/wait-for.bash "docker exec rabbitmq rabbitmq-diagnostics -q ping"
+        ./utils/wait-for.bash "docker exec mariadb mysqladmin -uroot -p${{ env.db_password }} status"
+        ./utils/wait-for.bash "docker exec redis /usr/local/bin/redis-cli PING"
+        ./utils/wait-for.bash "docker exec mssql /opt/mssql-tools/bin/sqlcmd -U sa -P ${{ env.db_password }} -l 1 -Q 'SELECT @@VERSION'"
+        ./utils/wait-for.bash "docker exec mongodb /usr/bin/mongo --quiet --eval 'db.stats().ok'"
+        docker exec mongodb mongo --eval "rs.initiate()"
