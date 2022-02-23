@@ -17,8 +17,10 @@ jobs:
   linux:
     uses: ./.github/workflows/_tests.yml
     with:
-      os: ubuntu-20.04
+      os: linux
+      image: ubuntu-20.04
   win:
     uses: ./.github/workflows/_tests.yml
     with:
-      os: windows-2022
+      os: windows
+      image: windows-2022

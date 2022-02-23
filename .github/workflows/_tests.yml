@@ -6,6 +6,9 @@ on:
       os:
         required: true
         type: string
+      image:
+        required: true
+        type: string
 
 defaults:
   run:
@@ -17,7 +20,7 @@ env:
 
 jobs:
   dotnet:
-    runs-on: ${{ inputs.os }}
+    runs-on: ${{ inputs.image }}
     steps:
     - name: checkout
       uses: actions/checkout@v2.4.0
@@ -39,3 +42,10 @@ jobs:
             --location --silent \
             https://github.com/tesseract-ocr/tessdata/raw/${{ env.tessdata_version }}/eng.traineddata \
             --output "${{ env.tessdata_path }}/eng.traineddata"
+    - name: start linux services
+      if: ${{ inputs.os == 'linux' }}
+      run: |
+        set -euxo pipefail
+        docker-compose -f ./utils/docker-compose/linux-dotnet.yml up
+        ./utils/wait-for.bash 'docker exec rabbitmq rabbitmq-diagnostics -q ping'
+        # TODO the rest
