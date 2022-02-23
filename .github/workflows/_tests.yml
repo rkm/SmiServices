@@ -55,7 +55,7 @@ jobs:
                 lock rewrite \
                 --lockfile-name linux-dotnet.yml.lock
 
-        cat ./utils/docker-compose-linux-dotnet.yml
+        cat ./utils/docker-compose/linux-dotnet.yml
 
         docker-compose -f ./utils/docker-compose/linux-dotnet.yml up -d
 
