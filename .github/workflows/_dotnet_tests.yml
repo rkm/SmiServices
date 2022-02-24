@@ -20,7 +20,7 @@ env:
   db_password: "YourStrongPassw0rd"
 
 jobs:
-  dotnet:
+  tests:
     runs-on: ${{ inputs.image }}
     steps:
     - name: checkout

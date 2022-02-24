@@ -15,7 +15,7 @@ defaults:
     shell: bash
 
 jobs:
-  dotnet:
+  tests:
     runs-on: ${{ inputs.image }}
     steps:
     - name: checkout
