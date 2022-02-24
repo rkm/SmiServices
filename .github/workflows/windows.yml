@@ -21,21 +21,21 @@ jobs:
   dotnet:
     uses: ./.github/workflows/_dotnet_tests.yml
     with:
-      os: ${{ env.os }}
-      image: ${{ env.image }}
+      os: $OS
+      image: $IMAGE
   java:
     uses: ./.github/workflows/_java_tests.yml
     with:
-      os: ${{ env.os }}
-      image: ${{ env.image }}
+      os: $OS
+      image: $IMAGE
   python:
     uses: ./.github/workflows/_python_tests.yml
     with:
-      os: ${{ env.os }}
-      image: ${{ env.image }}
+      os: $OS
+      image: $IMAGE
   packaging:
     needs: [dotnet, java, python]
     uses: ./.github/workflows/_packaging.yml
     with:
-      os: ${{ env.os }}
-      image: ${{ env.image }}
+      os: $OS
+      image: $IMAGE
