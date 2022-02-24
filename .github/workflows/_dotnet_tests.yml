@@ -66,3 +66,7 @@ jobs:
         ./utils/wait-for.bash "docker exec mssql /opt/mssql-tools/bin/sqlcmd -U sa -P ${{ env.db_password }} -l 1 -Q 'SELECT @@VERSION'"
         ./utils/wait-for.bash "docker exec mongodb /usr/bin/mongo --quiet --eval 'db.stats().ok'"
         docker exec mongodb mongo --eval "rs.initiate()"
+    - name: dotnet test
+      run: |
+        set -euxo pipefail
+        python ./utils/runDotnetTests.py ${{ inputs.os }}
