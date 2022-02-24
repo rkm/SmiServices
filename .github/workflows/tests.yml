@@ -14,13 +14,18 @@ defaults:
     shell: bash
 
 jobs:
-  linux:
+  linux_1:
     uses: ./.github/workflows/_tests.yml
     with:
       os: linux
       image: ubuntu-20.04
-  win:
+  linux_2:
     uses: ./.github/workflows/_tests.yml
     with:
-      os: windows
+      os: linux
+      image: ubuntu-20.04
+#   win:
+#     uses: ./.github/workflows/_tests.yml
+#     with:
+#       os: windows
       image: windows-2022
