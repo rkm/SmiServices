@@ -8,11 +8,6 @@ on:
   # testing
   workflow_dispatch:
 
-# NOTE(rkm 2022-02-20) These are not passed-on to any called workflows
-defaults:
-  run:
-    shell: bash
-
 jobs:
   dotnet:
     uses: ./.github/workflows/_dotnet_tests.yml
