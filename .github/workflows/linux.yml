@@ -1,0 +1,41 @@
+---
+
+name: linux
+
+on:
+  push:
+  pull_request:
+  # testing
+  workflow_dispatch:
+
+# NOTE(rkm 2022-02-20) These are not passed-on to any called workflows
+defaults:
+  run:
+    shell: bash
+
+env:
+  os: linux
+  image: ubuntu-20.04
+
+jobs:
+  dotnet:
+    uses: ./.github/workflows/_dotnet_tests.yml
+    with:
+      os: ${{ env.os }}
+      image: ${{ env.image }}
+  java:
+    uses: ./.github/workflows/_java_tests.yml
+    with:
+      os: ${{ env.os }}
+      image: ${{ env.image }}
+  python:
+    uses: ./.github/workflows/_python_tests.yml
+    with:
+      os: ${{ env.os }}
+      image: ${{ env.image }}
+  packaging:
+    needs: [dotnet, java, python]
+    uses: ./.github/workflows/_packaging.yml
+    with:
+      os: ${{ env.os }}
+      image: ${{ env.image }}
