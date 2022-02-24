@@ -20,3 +20,16 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2.4.0
+  java:
+    runs-on: ${{ inputs.image }}
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2.4.0
+  python:
+    runs-on: ${{ inputs.image }}
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2.4.0
+  # todo
+  # publish:
+  # if (release|tag) => publish packages
