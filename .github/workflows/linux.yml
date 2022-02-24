@@ -13,29 +13,25 @@ defaults:
   run:
     shell: bash
 
-env:
-  OS: linux
-  IMAGE: ubuntu-20.04
-
 jobs:
   dotnet:
     uses: ./.github/workflows/_dotnet_tests.yml
     with:
-      os: ${{ env.OS }}
-      image: ${{ env.IMAGE }}
+      os: linux
+      image: ubuntu-20.04
   java:
     uses: ./.github/workflows/_java_tests.yml
     with:
-      os: ${{ env.OS }}
-      image: ${{ env.IMAGE }}
+      os: linux
+      image: ubuntu-20.04
   python:
     uses: ./.github/workflows/_python_tests.yml
     with:
-      os: ${{ env.OS }}
-      image: ${{ env.IMAGE }}
+      os: linux
+      image: ubuntu-20.04
   packaging:
     needs: [dotnet, java, python]
     uses: ./.github/workflows/_packaging.yml
     with:
-      os: ${{ env.OS }}
-      image: ${{ env.IMAGE }}
+      os: linux
+      image: ubuntu-20.04
