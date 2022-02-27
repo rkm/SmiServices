@@ -218,8 +218,8 @@ jobs:
         path: dist/${{ needs.init.outputs.build_ref }}/*
         if-no-files-found: error
   upload-to-release:
-    # if: contains(github.ref, 'refs/tags/v')
-    needs: [smi, ctp, nerd, smi-py]
+    if: contains(github.ref, 'refs/tags/v')
+    needs: [init, smi, ctp, nerd, smi-py]
     runs-on: ubuntu-20.04
     steps:
     - name: download artifacts
@@ -229,12 +229,19 @@ jobs:
     - name: prepare artifacts for release
       run: |
         set -euxo pipefail
-        dist_dir=$(find ./dist -mindepth 1 -type d -print -quit)
+        dist_dir=./dist/SmiServices-${{ needs.init.outputs.build_ref }}.zip
         [ ! -d "$dist_dir" ] && { echo "No dist found"; exit 1; }
         ls -l $dist_dir
         mkdir ./release
         cat $dist_dir/MD5SUM* >> ./release/MD5SUMS.txt
         rm $dist_dir/MD5SUM*
         cp $dist_dir/* ./release/
-        sleep 1
         ls -l ./release
+        ./bin/release/createReleaseChangelog.py
+    - name: upload release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ./release/*
+        body_path: release_changelog.md
+        fail_on_unmatched_files: true
+        generate_release_notes: true
