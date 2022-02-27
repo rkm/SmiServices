@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse
 import os
-import shlex
 import sys
 
 # TODO(rkm 2022-02-25) This sucks
@@ -27,7 +25,7 @@ def main() -> int:
     C.start_containers(
         _COMPOSE_FILE_PATH,
         docker=docker,
-        checks = (
+        checks=(
             "rabbitmq rabbitmq-diagnostics -q ping",
             f"mariadb mysqladmin -uroot -p{args.db_password} status",
             "redis /usr/local/bin/redis-cli PING",
@@ -45,6 +43,7 @@ def main() -> int:
     C.run(cmd)
 
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

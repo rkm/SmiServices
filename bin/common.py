@@ -96,7 +96,7 @@ def start_containers(compose_file: Path, *, docker: str, checks: Sequence[str]) 
         print(f.read())
 
     cmd = (
-        f"{docker}-compose", 
+        f"{docker}-compose",
         "-f", compose_file,
         "up",
         "--detach",

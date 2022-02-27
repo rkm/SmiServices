@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse
 import os
-import shlex
 import sys
 
 # TODO(rkm 2022-02-25) This sucks
@@ -22,7 +20,7 @@ def main() -> int:
     docker = "docker" if not args.podman else "podman"
 
     cmd = (
-        f"{docker}-compose", 
+        f"{docker}-compose",
         "-f", _COMPOSE_FILE_PATH,
         "down",
         "--timeout", 0,
@@ -30,6 +28,7 @@ def main() -> int:
     C.run(cmd)
 
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
