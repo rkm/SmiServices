@@ -82,11 +82,7 @@ jobs:
       run: |
         set -euxo pipefail
         echo "rdmp_conn_str=localhost -u sa -p ${{ env.db-password}}" >> $GITHUB_ENV
-        f="tests/common/Smi.Common.Tests/RelationalDatabases.yaml"
-        rm "$f"
-        echo "MySql: 'server=127.0.0.1;Uid=root;Pwd=YourStrongPassw0rd;sslmode=None'" >> "$f"
-        echo "SqlServer: 'Server=localhost;User Id=sa;Password=${{ env.db-password }};TrustServerCertificate=true;'" >> "$f"
-        cat "$f"
+        ./bin/smi/writeDatabaseStrings.py localhost "${{ env.db-password }}"
     - name: set RDMP version
       run: |
         set -euxo pipefail
@@ -106,7 +102,7 @@ jobs:
         $db = "(localdb)\MSSQLLocalDB"
         sqlcmd -l 60 -S "$db" -Q "SELECT @@VERSION;"
         echo "rdmp_conn_str='$db'" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-        echo "SqlServer: 'Server=$db;'" > tests/common/Smi.Common.Tests/RelationalDatabases.yaml
+        ./bin/smi/writeDatabaseStrings.py "$db" "${{ env.db-password }}"
     - name: cache rdmp-cli
       id: cache-rdmp-cli
       uses: actions/cache@v2.1.7
