@@ -46,7 +46,10 @@ def main() -> int:
     args = parser.parse_args()
 
     with open(_RELATIONAL_YAML, "w") as f:
-        f.write(f"SqlServer: 'Server={args.mssql_server};User Id=sa;Password={args.db_password};TrustServerCertificate=true;'\n")
+        if "localdb" in args.mssql_server:
+            f.write(f"SqlServer: 'Server={args.mssql_server};'\n")
+        else:
+            f.write(f"SqlServer: 'Server={args.mssql_server};User Id=sa;Password={args.db_password};TrustServerCertificate=true;'\n")
         f.write(f"MySql: 'server=127.0.0.1;Uid=root;Pwd={args.db_password};sslmode=None'\n")
 
     with open(_RELATIONAL_YAML) as f:
