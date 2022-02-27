@@ -14,11 +14,8 @@ _COMPOSE_FILE_PATH = (C.PROJ_ROOT / "utils/docker-compose" / _COMPOSE_FILE_NAME)
 assert _COMPOSE_FILE_PATH.is_file()
 
 def main() -> int:
-    
+
     parser = C.get_docker_parser()
-    parser.add_argument(
-        "db_password",
-    )
     args = parser.parse_args()
 
     docker = "docker" if not args.podman else "podman"
