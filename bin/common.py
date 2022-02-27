@@ -5,7 +5,6 @@ import hashlib
 import functools
 import os
 import subprocess
-import time
 from pathlib import Path
 from typing import Optional
 from typing import Sequence
@@ -104,15 +103,8 @@ def start_containers(compose_file: Path, *, docker: str, checks: Sequence[str]) 
     )
     run(cmd)
 
-    # Debug
-    time.sleep(30)
     cmd = (docker, "ps")
     run(cmd)
-    cmd = (docker, "logs", "rabbitmq")
-    print()
-    print("===")
-    run(cmd)
-    print("===")
 
     for c in checks:
         cmd = (
