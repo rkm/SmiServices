@@ -1,24 +1,5 @@
 #!/usr/bin/env python3
 
-"""\
-    f="tests/common/Smi.Common.Tests/RelationalDatabases.yaml"
-        cat > "f" << EOF
-        MySql: 'server=127.0.0.1;Uid=root;Pwd=YourStrongPassw0rd;sslmode=None'
-        SqlServer: 'Server=localhost;User Id=sa;Password=${{ env.db-password }};TrustServerCertificate=true;'
-        EOF
-        cat "$f"
-
-        f="./tests/common/Smi.Common.Tests/TestDatabases.txt"
-        cat > "f" << EOF
-        ServerName: localhost
-        Prefix: TEST_
-        Username: sa
-        Password: ${{ env.db-password }}
-        MySql: server=127.0.0.1;Uid=root;Pwd=${{ env.db-password }};sslmode=None
-        EOF
-        cat "$f"
-"""
-
 import argparse
 import os
 import sys
@@ -34,6 +15,13 @@ _TEST_DBS_TXT = (C.PROJ_ROOT / "tests/common/Smi.Common.Tests/TestDatabases.txt"
 assert _TEST_DBS_TXT.is_file()
 
 
+def _is_ci() -> bool:
+    ci = os.environ.get("CI", None)
+    if ci is None:
+        return False
+    return ci == "1" or ci.lower() == "true"
+
+
 def main() -> int:
 
     parser = argparse.ArgumentParser()
@@ -46,11 +34,15 @@ def main() -> int:
     args = parser.parse_args()
 
     with open(_RELATIONAL_YAML, "w") as f:
+        # NOTE(rkm 2022-02-27) localdb installs with permissions for current user, so
+        # don't set user or password
         if "localdb" in args.mssql_server:
             f.write(f"SqlServer: 'Server={args.mssql_server};'\n")
         else:
             f.write(f"SqlServer: 'Server={args.mssql_server};User Id=sa;Password={args.db_password};TrustServerCertificate=true;'\n")
-        f.write(f"MySql: 'server=127.0.0.1;Uid=root;Pwd={args.db_password};sslmode=None'\n")
+        # NOTE(rkm 2022-02-27) We don't run MySQL in Windows in GitHub actions
+        if not (os.name == "nt" and _is_ci()):
+            f.write(f"MySql: 'server=127.0.0.1;Uid=root;Pwd={args.db_password};sslmode=None'\n")
 
     with open(_RELATIONAL_YAML) as f:
         print(f"{_RELATIONAL_YAML}:")
@@ -61,7 +53,8 @@ def main() -> int:
         f.write("Prefix: TEST_\n")
         f.write("Username: sa\n")
         f.write(f"Password: {args.db_password}\n")
-        f.write(f"MySql: server=127.0.0.1;Uid=root;Pwd={args.db_password};sslmode=None\n")
+        if not (os.name == "nt" and _is_ci()):
+            f.write(f"MySql: server=127.0.0.1;Uid=root;Pwd={args.db_password};sslmode=None\n")
 
     with open(_TEST_DBS_TXT) as f:
         print(f"{_TEST_DBS_TXT}:")
