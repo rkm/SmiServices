@@ -11,6 +11,10 @@ A raw git diff can be seen [here][unreleased].
 
 <!--next-->
 
+## [9.9.9] 2022-02-27
+
+Hi :)
+
 ## [5.0.1] 2022-02-18
 
 ## Bugfix
