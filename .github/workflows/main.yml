@@ -1,7 +1,5 @@
 ---
 
-# TODO(rkm 2022-02-27) Test release and "if" condition in packaging
-
 name: main
 
 on:
