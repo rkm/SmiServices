@@ -4,7 +4,6 @@ import argparse
 import os
 import sys
 
-# TODO(rkm 2022-02-25) This sucks
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import common as C
 
@@ -40,6 +39,7 @@ def main() -> int:
             f.write(f"SqlServer: 'Server={args.mssql_server};'\n")
         else:
             f.write(f"SqlServer: 'Server={args.mssql_server};User Id=sa;Password={args.db_password};TrustServerCertificate=true;'\n")
+
         # NOTE(rkm 2022-02-27) We don't run MySQL in Windows in GitHub actions
         if not (os.name == "nt" and _is_ci()):
             f.write(f"MySql: 'server=127.0.0.1;Uid=root;Pwd={args.db_password};sslmode=None'\n")

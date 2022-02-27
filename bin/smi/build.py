@@ -6,7 +6,6 @@ import sys
 from typing import Optional
 from typing import Sequence
 
-# TODO(rkm 2022-02-25) This sucks
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import common as C
 

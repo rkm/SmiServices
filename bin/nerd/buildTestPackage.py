@@ -6,7 +6,6 @@ import shutil
 import sys
 from pathlib import Path
 
-# TODO(rkm 2022-02-25) This sucks
 sys.path.append(str((Path(__file__).parent) / ".."))
 import common as C
 

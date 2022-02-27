@@ -6,7 +6,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-# TODO(rkm 2022-02-25) This sucks
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import common as C
 
