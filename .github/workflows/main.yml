@@ -218,6 +218,8 @@ jobs:
     needs: [init, smi, ctp, nerd, smi-py]
     runs-on: ubuntu-20.04
     steps:
+    - name: checkout
+      uses: actions/checkout@v2.4.0
     - name: download artifacts
       uses: actions/download-artifact@v2
       with:
