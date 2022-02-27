@@ -18,6 +18,9 @@ _CTP_JARS = [
     "log4j",
     "pixelmed_codec",
     "dcm4che-imageio-rle-2.0.25",
+]
+
+_DAT_JARS = [
     "clibwrapper_jiio",
     "jai_imageio",
 ]
@@ -35,7 +38,6 @@ def main() -> int:
     base_jar_cmd = (
         *base_cmd,
         "-DgroupId=dat",
-        "-Dversion=1.0",
         "-Dpackaging=jar",
         "-DgeneratePom=true",
     )
@@ -44,6 +46,17 @@ def main() -> int:
             (
                 *base_jar_cmd,
                 f"-DartifactId={j}",
+                "-Dversion=1.0",
+                f"-Dfile={j}.jar",
+            ),
+            cwd=_CTP_LIB_DIR,
+        )
+    for j in _DAT_JARS:
+        C.run(
+            (
+                *base_jar_cmd,
+                f"-DartifactId={j}",
+                "-Dversion=1.1",
                 f"-Dfile={j}.jar",
             ),
             cwd=_CTP_LIB_DIR,
