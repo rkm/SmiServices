@@ -112,4 +112,13 @@ def start_containers(compose_file: Path, *, docker: str, checks: Sequence[str]) 
             "--timeout", "60s",
             f"{docker} exec {c}",
         )
-        run(cmd)
+        try:
+            run(cmd)
+        except subprocess.CalledProcessError:
+            cmd = (
+                f"{docker}-compose",
+                -f, compose_file,
+                "logs"
+            )
+            run(cmd)
+            raise
