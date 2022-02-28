@@ -117,7 +117,7 @@ def start_containers(compose_file: Path, *, docker: str, checks: Sequence[str]) 
         except subprocess.CalledProcessError:
             cmd = (
                 f"{docker}-compose",
-                -f, compose_file,
+                "-f", compose_file,
                 "logs"
             )
             run(cmd)
